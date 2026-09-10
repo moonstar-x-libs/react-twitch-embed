@@ -1,10 +1,3 @@
-[![ci-build-status](https://img.shields.io/github/workflow/status/moonstar-x/react-twitch-embed/On%20Push%20%28Master%29?logo=github)](https://github.com/moonstar-x/react-twitch-embed)
-[![issues](https://img.shields.io/github/issues/moonstar-x/react-twitch-embed?logo=github)](https://github.com/moonstar-x/react-twitch-embed)
-[![bundle-size](https://img.shields.io/bundlephobia/min/react-twitch-embed)](https://www.npmjs.com/package/react-twitch-embed)
-[![version](https://img.shields.io/npm/v/react-twitch-embed?logo=npm)](https://www.npmjs.com/package/react-twitch-embed)
-[![downloads-week](https://img.shields.io/npm/dw/react-twitch-embed?logo=npm)](https://www.npmjs.com/package/react-twitch-embed)
-[![downloads-total](https://img.shields.io/npm/dt/react-twitch-embed?logo=npm)](https://www.npmjs.com/package/react-twitch-embed)
-
 # react-twitch-embed
 
 A collection of components to embed Twitch.
@@ -19,6 +12,9 @@ alongside a description on all the supported props for each component.
 ```text
 npm install react-twitch-embed
 ```
+
+This package ships both an ESM and a CommonJS build alongside its own type declarations, and it supports
+React 18 and React 19. `react` and `react-dom` are peer dependencies, so they are not installed for you.
 
 ## A Note on Typings
 
@@ -66,6 +62,13 @@ As such, you shouldn't need to specify this prop for any of the components, unle
 > For the `TwitchEmbed` and `TwitchPlayer` components, when updating their `channel`, `video` and/or `collection` props,
 > the player will not be recreated and instead the internal API will be used to update this data.
 
+* **When is the embed recreated?**
+> Only when the `id` or one of the options that the Twitch constructor owns changes: `allowFullscreen`, `autoplay`,
+> `muted`, `parent`, `time`, `hideControls`, plus `withChat` and `darkMode` for `TwitchEmbed` and `playsInline` for
+> `TwitchPlayer`. Media props are switched through the internal API, and everything else (event handlers, `height`,
+> `width`, `className`, `style`, and any other prop forwarded to the `div`) never recreates it. This means inline
+> arrow functions as event handlers are safe: the latest one is always the one that gets called.
+
 ## Testing
 
 You can run the tests for this package by running:
@@ -88,12 +91,9 @@ When developing, you can use Storybook as a way to check the components and test
 npm run storybook:serve
 ```
 
-Also, make sure that your code is linter properly with:
+Also, make sure that your code lints and type checks properly with:
 
 ```text
 npm run lint
+npm run typecheck
 ```
-
-## Author
-
-This component package was made by [moonstar-x](https://github.com/moonstar-x).

@@ -131,3 +131,6 @@ dist
 
 # Docs Build
 docs-build/
+
+# Storybook
+storybook-static/
