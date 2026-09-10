@@ -3,7 +3,7 @@
   "version": "3.1.0",
   "description": "A collection of components to embed Twitch.",
   "scripts": {
-
+    "typecheck": "tsc --noEmit"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.es.js",
@@ -40,10 +40,8 @@
     "url": "https://github.com/moonstar-x-libs/react-twitch-embed/issues"
   },
   "devDependencies": {
-
-  },
-  "peerDependencies": {
-
+    "@moonstar-x/tsconfig": "^1.0.1",
+    "typescript": "^7.0.2"
   },
   "sideEffects": false,
   "engines": {

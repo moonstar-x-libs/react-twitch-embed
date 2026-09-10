@@ -1,0 +1,18 @@
+{
+  "extends": "@moonstar-x/tsconfig/react",
+  "compilerOptions": {
+    "target": "es2022",
+    "lib": ["es2022", "dom", "dom.iterable"],
+  },
+  "include": [
+    "src/**/*.ts",
+    ".storybook/**/*.ts",
+    "jest.config.ts",
+    "jest.setup.ts",
+    "vite.config.mts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
