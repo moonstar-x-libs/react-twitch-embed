@@ -1,6 +1,6 @@
 import type { ChangeEvent, ComponentType, ReactElement } from 'react';
 import { useRef } from 'react';
-import type { TwitchPlayerInstance } from '../../src/utils/types';
+import type { TwitchPlayerInstance } from '../../src';
 
 const buttonStyle = {
   margin: '1rem',

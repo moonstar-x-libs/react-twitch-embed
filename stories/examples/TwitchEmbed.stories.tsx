@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { TwitchEmbed } from '../../src/components/TwitchEmbed';
+import { TwitchEmbed } from '../../src';
 import { DEFAULTS } from '../../src/constants';
 import { STORYBOOK_DEFAULTS } from '../defaults';
 import withAutoplayWarning from '../helpers/withAutoplayWarning';

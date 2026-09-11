@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { TwitchPlayer } from '../../src/components/TwitchPlayer';
+import { TwitchPlayer } from '../../src';
 import { DEFAULTS } from '../../src/constants';
 import { STORYBOOK_DEFAULTS } from '../defaults';
 import withAutoplayWarning from '../helpers/withAutoplayWarning';

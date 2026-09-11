@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { TwitchChat } from '../../src/components/TwitchChat';
+import { TwitchChat } from '../../src';
 import { DEFAULTS } from '../../src/constants';
 import { STORYBOOK_DEFAULTS } from '../defaults';
 
