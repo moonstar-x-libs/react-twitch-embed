@@ -93,7 +93,7 @@ const switchMedia = (player: TwitchPlayerInstance, previous: Media, next: Media)
   }
 };
 
-const TwitchEmbed: FC<TwitchEmbedProps> = ({
+export const TwitchEmbed: FC<TwitchEmbedProps> = ({
   allowFullscreen = DEFAULTS.ALLOW_FULLSCREEN,
   autoplay = DEFAULTS.AUTOPLAY,
   channel,
@@ -193,5 +193,3 @@ const TwitchEmbed: FC<TwitchEmbedProps> = ({
     />
   );
 };
-
-export default TwitchEmbed;

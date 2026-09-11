@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
-import TwitchPlayerNonInteractive from './TwitchPlayerNonInteractive';
+import { TwitchPlayerNonInteractive } from './TwitchPlayerNonInteractive';
 
 const props = {
   channel: 'channel'

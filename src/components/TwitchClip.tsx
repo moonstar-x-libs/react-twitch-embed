@@ -16,7 +16,7 @@ export interface TwitchClipProps extends Omit<ComponentProps<'iframe'>, 'src'> {
   width?: Optional<number | string>;
 }
 
-const TwitchClip: FC<TwitchClipProps> = ({
+export const TwitchClip: FC<TwitchClipProps> = ({
   clip,
   parent,
   style,
@@ -46,5 +46,3 @@ const TwitchClip: FC<TwitchClipProps> = ({
     />
   );
 };
-
-export default TwitchClip;

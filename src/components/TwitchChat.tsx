@@ -15,7 +15,7 @@ export interface TwitchChatProps extends Omit<ComponentProps<'iframe'>, 'src'> {
   width?: Optional<number | string>;
 }
 
-const TwitchChat: FC<TwitchChatProps> = ({
+export const TwitchChat: FC<TwitchChatProps> = ({
   channel,
   parent,
   style,
@@ -44,5 +44,3 @@ const TwitchChat: FC<TwitchChatProps> = ({
     />
   );
 };
-
-export default TwitchChat;

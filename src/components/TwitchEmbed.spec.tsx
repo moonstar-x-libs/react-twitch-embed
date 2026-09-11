@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 import type { TwitchEmbedConstructor, TwitchWindow } from '../utils/types';
-import TwitchEmbed from './TwitchEmbed';
+import { TwitchEmbed } from './TwitchEmbed';
 
 const channel = 'channel';
 const id = 'twitch-embed';

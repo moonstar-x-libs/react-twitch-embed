@@ -1,6 +1,6 @@
 import { describe, expect, it } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
-import TwitchClip from './TwitchClip';
+import { TwitchClip } from './TwitchClip';
 
 const props = {
   clip: 'clip',

@@ -105,7 +105,7 @@ const switchMedia = (instance: TwitchPlayerInstance, previous: Media, next: Medi
   }
 };
 
-const TwitchPlayer: FC<TwitchPlayerProps> = ({
+export const TwitchPlayer: FC<TwitchPlayerProps> = ({
   channel,
   video,
   collection,
@@ -220,5 +220,3 @@ const TwitchPlayer: FC<TwitchPlayerProps> = ({
     />
   );
 };
-
-export default TwitchPlayer;

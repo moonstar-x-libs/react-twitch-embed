@@ -19,7 +19,7 @@ export interface TwitchPlayerNonInteractiveProps extends Omit<ComponentProps<'if
   width?: Optional<number | string>;
 }
 
-const TwitchPlayerNonInteractive: FC<TwitchPlayerNonInteractiveProps> = ({
+export const TwitchPlayerNonInteractive: FC<TwitchPlayerNonInteractiveProps> = ({
   parent,
   channel,
   video,
@@ -52,5 +52,3 @@ const TwitchPlayerNonInteractive: FC<TwitchPlayerNonInteractiveProps> = ({
     />
   );
 };
-
-export default TwitchPlayerNonInteractive;

@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
 import type { TwitchPlayerConstructor, TwitchWindow } from '../utils/types';
-import TwitchPlayer from './TwitchPlayer';
+import { TwitchPlayer } from './TwitchPlayer';
 
 const channel = 'channel';
 const id = 'twitch-player';
