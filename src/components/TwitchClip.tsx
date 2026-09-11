@@ -2,27 +2,29 @@ import type { ComponentProps, FC } from 'react';
 import { DEFAULTS } from '../constants';
 import useHostname from '../hooks/useHostname';
 import type { Parent } from '../utils/parent';
-import { generateUrl } from '../utils/TwitchChat';
+import { generateUrl } from '../utils/TwitchClip';
 
-export interface TwitchChatProps extends Omit<ComponentProps<'iframe'>, 'src'> {
-  channel: string;
-  darkMode?: boolean | undefined;
+export interface TwitchClipProps extends Omit<ComponentProps<'iframe'>, 'src'> {
+  autoplay?: boolean | undefined;
+  clip: string;
   height?: number | string | undefined;
+  muted?: boolean | undefined;
 
   parent?: Parent | undefined;
   title?: string | undefined;
   width?: number | string | undefined;
 }
 
-const TwitchChat: FC<TwitchChatProps> = ({
-  channel,
+const TwitchClip: FC<TwitchClipProps> = ({
+  clip,
   parent,
   style,
-  darkMode = DEFAULTS.DARK_MODE,
+  autoplay = DEFAULTS.AUTOPLAY,
+  muted = DEFAULTS.MUTED,
 
-  title = DEFAULTS.TITLE.TWITCH_CHAT,
-  height = DEFAULTS.CHAT.HEIGHT,
-  width = DEFAULTS.CHAT.WIDTH,
+  title = DEFAULTS.TITLE.TWITCH_CLIP,
+  height = DEFAULTS.MEDIA.HEIGHT,
+  width = DEFAULTS.MEDIA.WIDTH,
   ...props
 }) => {
   const hostname = useHostname();
@@ -35,7 +37,7 @@ const TwitchChat: FC<TwitchChatProps> = ({
   return (
     <iframe
       height={height}
-      src={generateUrl(channel, resolvedParent, { darkMode })}
+      src={generateUrl(clip, resolvedParent, { autoplay, muted })}
       style={{ border: 'none', ...style }}
       title={title}
       width={width}
@@ -44,4 +46,4 @@ const TwitchChat: FC<TwitchChatProps> = ({
   );
 };
 
-export default TwitchChat;
+export default TwitchClip;
