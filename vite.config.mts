@@ -10,7 +10,7 @@ const config: UserConfig = defineConfig({
     lib: {
       entry: 'src/index.ts',
       formats: ['es', 'cjs'],
-      fileName: (format) => format === 'es' ? 'index.es.js' : 'index.js'
+      fileName: (format) => format === 'es' ? 'index.mjs' : 'index.js'
     },
     rollupOptions: {
       external: ['react', 'react-dom', 'react/jsx-runtime'],

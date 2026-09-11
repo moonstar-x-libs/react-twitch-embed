@@ -5,7 +5,7 @@
   "scripts": {
     "storybook:serve": "storybook dev -p 6006",
     "storybook:build": "storybook build -o docs-build",
-    "build": "vite build && tsc -p tsconfig.build.json",
+    "build": "vite build && tsc -p tsconfig.build.json && node ./scripts/build-esm-types.mjs",
     "build:watch": "vite build --watch",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
@@ -16,15 +16,24 @@
     "test:coverage": "npm test -- --coverage",
     "prepack": "npm run build"
   },
+  "type": "commonjs",
   "main": "./dist/index.js",
-  "module": "./dist/index.es.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.es.js",
-      "require": "./dist/index.js",
-      "default": "./dist/index.js"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "default": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
     },
     "./package.json": "./package.json"
   },

@@ -12,7 +12,7 @@
     "stories/**/*.ts",
     "stories/**/*.tsx",
     ".storybook/**/*.ts",
-    "jest.config.ts",
+    "jest.config.mts",
     "jest.setup.ts",
     "vite.config.mts"
   ],
