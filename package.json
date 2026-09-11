@@ -5,13 +5,16 @@
   "scripts": {
     "storybook:serve": "storybook dev -p 6006",
     "storybook:build": "storybook build -o docs-build",
+    "build": "vite build && tsc -p tsconfig.build.json",
+    "build:watch": "vite build --watch",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "lint:package": "publint",
     "test": "jest",
     "test:watch": "npm test -- --watch",
-    "test:coverage": "npm test -- --coverage"
+    "test:coverage": "npm test -- --coverage",
+    "prepack": "npm run build"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.es.js",
@@ -62,6 +65,7 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@typescript-eslint/parser": "^8.70.0",
+    "@vitejs/plugin-react": "^6.1.1",
     "eslint": "^10.10.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-storybook": "^10.6.0",
@@ -73,7 +77,8 @@
     "remark-gfm": "^4.0.1",
     "storybook": "^10.6.0",
     "ts-jest": "^29.4.12",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vite": "^8.3.0"
   },
   "peerDependencies": {
     "react": "^18.2.0 || ^19.0.0",
@@ -86,7 +91,8 @@
   "overrides": {
     "eslint-plugin-jsx-a11y": {
       "eslint": "$eslint"
-    }
+    },
+    "@babel/plugin-transform-runtime": "^7.29.0"
   },
   "allowScripts": {
     "unrs-resolver@1.12.2": true,
