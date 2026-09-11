@@ -8,7 +8,7 @@ const withAutoplayWarning = <P extends object>(
 
     <div style={{ padding: '20px', width: '75%', background: '#fff3cd', color: '#664d03', borderRadius: '8px', borderColor: '#ffecb5', border: '1px', marginTop: '20px', fontFamily: '"Helvetica Neue", Arial, sans-serif' }}>
       <p>
-        Autoplay might not work here. Twitch requires the embed to have some minimal requirements.
+        Autoplay might not work here. Twitch needs the embed to satisfy some minimal requirements.
       </p>
       <p>
         These requirements include style visibility, which Storybook violates in this case because of the way
