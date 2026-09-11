@@ -2,8 +2,11 @@ import type { Config } from 'jest';
 
 const config: Config = {
   testEnvironment: 'jsdom',
-  roots: ['<rootDir>/src'],
-  testMatch: ['<rootDir>/src/**/*.spec.{ts,tsx}'],
+  roots: ['<rootDir>'],
+  testMatch: [
+    '<rootDir>/src/**/*.spec.{ts,tsx}',
+    '<rootDir>/stories/**/*.spec.{ts,tsx}'
+  ],
 
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 
@@ -16,8 +19,8 @@ const config: Config = {
   coverageReporters: ['text', 'lcov'],
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
+    'stories/**/*.{ts,tsx}',
     '!src/**/*.spec.{ts,tsx}',
-    '!src/stories/**',
     '!src/types.ts',
     '!src/index.ts'
   ]

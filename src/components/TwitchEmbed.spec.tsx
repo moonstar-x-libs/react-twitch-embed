@@ -26,9 +26,7 @@ const embedConstructorMock = jest.fn(() => ({
   addEventListener: addEventListenerMock
 }));
 
-// eslint-disable-next-line unicorn/no-global-object-property-assignment
 (window as TwitchWindow).Twitch = {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
   Embed: embedConstructorMock as unknown as TwitchEmbedConstructor
 };
 

@@ -36,9 +36,7 @@ Object.assign(playerConstructorMock, {
   SEEK: 'seek'
 });
 
-// eslint-disable-next-line unicorn/no-global-object-property-assignment
 (window as TwitchWindow).Twitch = {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
   Player: playerConstructorMock as unknown as TwitchPlayerConstructor
 };
 

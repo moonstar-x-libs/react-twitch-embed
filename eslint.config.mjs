@@ -37,6 +37,20 @@ export default [
     }
   },
   {
+    name: 'overrides/tests',
+    files: [
+      '**/*.spec.ts',
+      '**/*.spec.tsx'
+    ],
+    rules: {
+      'unicorn/no-global-object-property-assignment': 'off',
+      '@typescript-eslint/no-unsafe-type-assertion': 'off',
+      'unicorn/no-unsafe-dom-html': 'off',
+      'unicorn/prefer-dom-node-html-methods': 'off',
+      'max-nested-callbacks': 'off'
+    }
+  },
+  {
     name: 'storybook',
     files: [
       'src/**/*.stories.tsx'
