@@ -187,12 +187,12 @@ const TwitchPlayer: FC<TwitchPlayerProps> = ({
     const media: Media = { channel, video, collection };
     const previous = mountedRef.current;
     const instance = playerRef.current;
-    const isMustReconstruct = !instance ||
+    const shouldReconstruct = !instance ||
       !previous ||
       previous.id !== id ||
       !isShallowEqual(previous.options, options);
 
-    if (isMustReconstruct) {
+    if (shouldReconstruct) {
       clearElementById(id);
 
       const player = new PlayerConstructor(id, { ...options, ...media });
