@@ -5,8 +5,5 @@
     "src/**/*.tsx",
     "jest.setup.ts",
     "jest.config.ts"
-  ],
-  "exclude": [
-    "src/**/*.stories.tsx"
   ]
 }

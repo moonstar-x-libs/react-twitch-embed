@@ -25,7 +25,8 @@ export default [
     name: 'overrides',
     rules: {
       '@eslint-react/dom-no-missing-iframe-sandbox': 'off',
-      'unicorn/prefer-global-this': 'off'
+      'unicorn/prefer-global-this': 'off',
+      'import-x/no-extraneous-dependencies': 'off'
     }
   },
   {
