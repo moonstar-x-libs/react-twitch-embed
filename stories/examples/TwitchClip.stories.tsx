@@ -2,10 +2,11 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import TwitchClip from '../../src/components/TwitchClip';
 import { DEFAULTS } from '../../src/constants';
 import { STORYBOOK_DEFAULTS } from '../defaults';
+import withAutoplayWarning from '../helpers/withAutoplayWarning';
 
 const meta: Meta = {
   title: 'Examples/TwitchClip',
-  component: TwitchClip,
+  component: withAutoplayWarning(TwitchClip),
   args: {
     clip: STORYBOOK_DEFAULTS.clips[0]
   },

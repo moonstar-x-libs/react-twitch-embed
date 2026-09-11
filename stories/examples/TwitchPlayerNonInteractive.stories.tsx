@@ -2,10 +2,11 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import TwitchPlayerNonInteractive from '../../src/components/TwitchPlayerNonInteractive';
 import { DEFAULTS } from '../../src/constants';
 import { STORYBOOK_DEFAULTS } from '../defaults';
+import withAutoplayWarning from '../helpers/withAutoplayWarning';
 
 const meta: Meta = {
   title: 'Examples/TwitchPlayerNonInteractive',
-  component: TwitchPlayerNonInteractive,
+  component: withAutoplayWarning(TwitchPlayerNonInteractive),
   argTypes: {
     parent: {
       control: 'text',

@@ -2,12 +2,13 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import TwitchPlayer from '../../src/components/TwitchPlayer';
 import { DEFAULTS } from '../../src/constants';
 import { STORYBOOK_DEFAULTS } from '../defaults';
+import withAutoplayWarning from '../helpers/withAutoplayWarning';
 import withNextMediaControls from '../helpers/withNextMediaControls';
 import withVideoControls from '../helpers/withVideoControls';
 
 const meta: Meta = {
   title: 'Examples/TwitchPlayer',
-  component: TwitchPlayer,
+  component: withAutoplayWarning(TwitchPlayer),
   argTypes: {
     channel: {
       control: 'text',
