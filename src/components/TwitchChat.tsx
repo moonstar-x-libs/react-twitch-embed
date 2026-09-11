@@ -3,15 +3,16 @@ import { DEFAULTS } from '../constants';
 import useHostname from '../hooks/useHostname';
 import type { Parent } from '../utils/parent';
 import { generateUrl } from '../utils/TwitchChat';
+import type { Optional } from '../utils/types';
 
 export interface TwitchChatProps extends Omit<ComponentProps<'iframe'>, 'src'> {
   channel: string;
-  darkMode?: boolean | undefined;
-  height?: number | string | undefined;
+  darkMode?: Optional<boolean>;
+  height?: Optional<number | string>;
 
-  parent?: Parent | undefined;
-  title?: string | undefined;
-  width?: number | string | undefined;
+  parent?: Optional<Parent>;
+  title?: Optional<string>;
+  width?: Optional<number | string>;
 }
 
 const TwitchChat: FC<TwitchChatProps> = ({

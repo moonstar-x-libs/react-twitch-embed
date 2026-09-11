@@ -1,4 +1,5 @@
 export type Optional<T> = T | undefined;
+export type Nullable<T> = null | T;
 
 export interface OnPlayData {
   sessionId: string;
@@ -17,7 +18,7 @@ export interface OnAuthenticateData {
 export interface PlayerQuality {
   bitrate: number;
   codecs: string;
-  framerate?: number | undefined;
+  framerate?: Optional<number>;
   group: string;
   height: number;
   isDefault: boolean;
@@ -109,17 +110,17 @@ export interface TwitchPlayerInstance extends EventTarget {
   /**
    * Returns the channel’s name. Works only for live streams, not VODs.
    */
-  getChannel: () => string | undefined;
+  getChannel: () => Optional<string>;
 
   /**
    * UNDOCUMENTED. Get the ID of the channel being played.
    */
-  getChannelId: () => string | undefined;
+  getChannelId: () => Optional<string>;
 
   /**
    * UNDOCUMENTED. Get the collection being played.
    */
-  getCollection: () => string | undefined;
+  getCollection: () => Optional<string>;
 
   /**
    * Returns the current video’s timestamp, in seconds. Works only for VODs, not live streams.
@@ -165,7 +166,7 @@ export interface TwitchPlayerInstance extends EventTarget {
   /**
    * Returns the video ID. Works only for VODs, not live streams.
    */
-  getVideo: () => string | undefined;
+  getVideo: () => Optional<string>;
 
   /**
    * Returns the volume level, a value between 0.0 and 1.0.
@@ -242,18 +243,18 @@ export interface TwitchPlayerInstance extends EventTarget {
 }
 
 export interface TwitchPlayerConstructorOptions {
-  allowfullscreen?: boolean | undefined;
-  autoplay?: boolean | undefined;
-  channel?: string | undefined;
-  collection?: string | undefined;
-  controls?: boolean | undefined;
-  height?: number | string | undefined;
-  muted?: boolean | undefined;
-  parent?: string[] | undefined;
-  playsinline?: boolean | undefined;
-  time?: string | undefined;
-  video?: string | undefined;
-  width?: number | string | undefined;
+  allowfullscreen?: Optional<boolean>;
+  autoplay?: Optional<boolean>;
+  channel?: Optional<string>;
+  collection?: Optional<string>;
+  controls?: Optional<boolean>;
+  height?: Optional<number | string>;
+  muted?: Optional<boolean>;
+  parent?: Optional<string[]>;
+  playsinline?: Optional<boolean>;
+  time?: Optional<string>;
+  video?: Optional<string>;
+  width?: Optional<number | string>;
 }
 
 export interface TwitchPlayerConstructor {
@@ -323,19 +324,19 @@ export interface TwitchEmbedInstance extends TwitchPlayerInstance {
 }
 
 export interface TwitchEmbedConstructorOptions {
-  allowfullscreen?: boolean | undefined;
-  autoplay?: boolean | undefined;
-  channel?: string | undefined;
-  collection?: string | undefined;
-  controls?: boolean | undefined;
-  height?: number | string | undefined;
-  layout?: 'video' | 'video-with-chat' | undefined;
-  muted?: boolean | undefined;
-  parent?: null | string[] | undefined;
-  theme?: 'dark' | 'light' | undefined;
-  time?: string | undefined;
-  video?: string | undefined;
-  width?: number | string | undefined;
+  allowfullscreen?: Optional<boolean>;
+  autoplay?: Optional<boolean>;
+  channel?: Optional<string>;
+  collection?: Optional<string>;
+  controls?: Optional<boolean>;
+  height?: Optional<number | string>;
+  layout?: Optional<'video' | 'video-with-chat'>;
+  muted?: Optional<boolean>;
+  parent?: Optional<Nullable<string[]>>;
+  theme?: Optional<'dark' | 'light'>;
+  time?: Optional<string>;
+  video?: Optional<string>;
+  width?: Optional<number | string>;
 }
 
 export interface TwitchEmbedConstructor {
@@ -364,8 +365,8 @@ export interface TwitchEmbedConstructor {
 }
 
 export interface TwitchWindow extends Window {
-  Twitch?: undefined | {
-    Embed?: TwitchEmbedConstructor | undefined;
-    Player?: TwitchPlayerConstructor | undefined;
-  };
+  Twitch?: Optional<{
+    Embed?: Optional<TwitchEmbedConstructor>;
+    Player?: Optional<TwitchPlayerConstructor>;
+  }>;
 }

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
+import type { Nullable } from '../utils/types';
 
 export interface ScriptState {
-  error: Error | null;
+  error: Nullable<Error>;
   loading: boolean;
 }
 
@@ -49,7 +50,7 @@ const useScript = (source: string): ScriptState => {
       document.body.append(script);
     }
 
-    const settle = (error: Error | null): void => {
+    const settle = (error: Nullable<Error>): void => {
       script.setAttribute(LOADING_ATTRIBUTE, 'false');
       setState({ loading: false, error });
     };

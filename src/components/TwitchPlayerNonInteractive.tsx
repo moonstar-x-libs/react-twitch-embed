@@ -3,19 +3,20 @@ import { DEFAULTS } from '../constants';
 import useHostname from '../hooks/useHostname';
 import type { Parent } from '../utils/parent';
 import { generateUrl } from '../utils/TwitchPlayerNonInteractive';
+import type { Optional } from '../utils/types';
 
 export interface TwitchPlayerNonInteractiveProps extends Omit<ComponentProps<'iframe'>, 'src'> {
-  autoplay?: boolean | undefined;
-  channel?: string | undefined;
-  collection?: string | undefined;
-  height?: number | string | undefined;
-  muted?: boolean | undefined;
-  parent?: Parent | undefined;
-  time?: string | undefined;
+  autoplay?: Optional<boolean>;
+  channel?: Optional<string>;
+  collection?: Optional<string>;
+  height?: Optional<number | string>;
+  muted?: Optional<boolean>;
+  parent?: Optional<Parent>;
+  time?: Optional<string>;
 
-  title?: string | undefined;
-  video?: string | undefined;
-  width?: number | string | undefined;
+  title?: Optional<string>;
+  video?: Optional<string>;
+  width?: Optional<number | string>;
 }
 
 const TwitchPlayerNonInteractive: FC<TwitchPlayerNonInteractiveProps> = ({

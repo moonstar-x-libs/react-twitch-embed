@@ -1,9 +1,10 @@
 import { DEFAULTS, URLS } from '../constants';
 import { appendParents } from './parent';
 import type { Parent } from './parent';
+import type { Optional } from './types';
 
 export interface TwitchChatGenerateUrlOptions {
-  darkMode?: boolean | undefined;
+  darkMode?: Optional<boolean>;
 }
 
 export const generateUrl = (

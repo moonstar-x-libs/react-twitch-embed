@@ -1,6 +1,8 @@
+import type { Optional } from './types';
+
 export type Parent = string | string[];
 
-export const toParentList = (parent: Parent | undefined): string[] | undefined => {
+export const toParentList = (parent: Optional<Parent>): Optional<string[]> => {
   if (parent === undefined || parent === '') {
     return undefined;
   }

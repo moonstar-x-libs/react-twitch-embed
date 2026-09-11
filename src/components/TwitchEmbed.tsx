@@ -10,7 +10,7 @@ import { isShallowEqual } from '../utils/object';
 import type { Parent } from '../utils/parent';
 import type {
   OnAuthenticateData,
-  OnPlayData,
+  OnPlayData, Optional,
   TwitchEmbedConstructor,
   TwitchEmbedConstructorOptions,
   TwitchEmbedInstance,
@@ -19,32 +19,32 @@ import type {
 } from '../utils/types';
 
 export interface TwitchEmbedProps extends ComponentProps<'div'> {
-  allowFullscreen?: boolean | undefined;
-  autoplay?: boolean | undefined;
-  channel?: string | undefined;
-  collection?: string | undefined;
-  darkMode?: boolean | undefined;
-  height?: number | string | undefined;
-  hideControls?: boolean | undefined;
-  id?: string | undefined;
-  muted?: boolean | undefined;
-  onAuthenticate?: ((embed: TwitchEmbedInstance, data: OnAuthenticateData) => void) | undefined;
-  onVideoPause?: ((embed: TwitchEmbedInstance) => void) | undefined;
+  allowFullscreen?: Optional<boolean>;
+  autoplay?: Optional<boolean>;
+  channel?: Optional<string>;
+  collection?: Optional<string>;
+  darkMode?: Optional<boolean>;
+  height?: Optional<number | string>;
+  hideControls?: Optional<boolean>;
+  id?: Optional<string>;
+  muted?: Optional<boolean>;
+  onAuthenticate?: Optional<(embed: TwitchEmbedInstance, data: OnAuthenticateData) => void>;
+  onVideoPause?: Optional<(embed: TwitchEmbedInstance) => void>;
 
-  onVideoPlay?: ((embed: TwitchEmbedInstance, data: OnPlayData) => void) | undefined;
-  onVideoReady?: ((embed: TwitchEmbedInstance) => void) | undefined;
-  parent?: Parent | undefined;
-  time?: string | undefined;
+  onVideoPlay?: Optional<(embed: TwitchEmbedInstance, data: OnPlayData) => void>;
+  onVideoReady?: Optional<(embed: TwitchEmbedInstance) => void>;
+  parent?: Optional<Parent>;
+  time?: Optional<string>;
 
-  video?: string | undefined;
-  width?: number | string | undefined;
-  withChat?: boolean | undefined;
+  video?: Optional<string>;
+  width?: Optional<number | string>;
+  withChat?: Optional<boolean>;
 }
 
 interface Media {
-  channel?: string | undefined;
-  collection?: string | undefined;
-  video?: string | undefined;
+  channel?: Optional<string>;
+  collection?: Optional<string>;
+  video?: Optional<string>;
 }
 
 interface MountedEmbed {
@@ -151,7 +151,7 @@ const TwitchEmbed: FC<TwitchEmbedProps> = ({
       return;
     }
 
-    const EmbedConstructor: TwitchEmbedConstructor | undefined = (window as TwitchWindow).Twitch?.Embed;
+    const EmbedConstructor: Optional<TwitchEmbedConstructor> = (window as TwitchWindow).Twitch?.Embed;
 
     if (!EmbedConstructor) {
       return;

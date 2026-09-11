@@ -10,7 +10,7 @@ import { isShallowEqual } from '../utils/object';
 import type { Parent } from '../utils/parent';
 import type {
   OnPlayData,
-  OnSeekData,
+  OnSeekData, Optional,
   TwitchPlayerConstructor,
   TwitchPlayerConstructorOptions,
   TwitchPlayerInstance,
@@ -20,31 +20,31 @@ import type {
 type PlayerDivProps = Omit<ComponentProps<'div'>, 'onEnded' | 'onPause' | 'onPlay' | 'onPlaying'>;
 
 export interface TwitchPlayerProps extends PlayerDivProps {
-  allowFullscreen?: boolean | undefined;
-  autoplay?: boolean | undefined;
-  channel?: string | undefined;
-  collection?: string | undefined;
-  height?: number | string | undefined;
-  hideControls?: boolean | undefined;
-  id?: string | undefined;
-  muted?: boolean | undefined;
-  onCaptions?: ((player: TwitchPlayerInstance, captions: string) => void) | undefined;
-  onEnded?: ((player: TwitchPlayerInstance) => void) | undefined;
+  allowFullscreen?: Optional<boolean>;
+  autoplay?: Optional<boolean>;
+  channel?: Optional<string>;
+  collection?: Optional<string>;
+  height?: Optional<number | string>;
+  hideControls?: Optional<boolean>;
+  id?: Optional<string>;
+  muted?: Optional<boolean>;
+  onCaptions?: Optional<(player: TwitchPlayerInstance, captions: string) => void>;
+  onEnded?: Optional<(player: TwitchPlayerInstance) => void>;
 
-  onOffline?: ((player: TwitchPlayerInstance) => void) | undefined;
-  onOnline?: ((player: TwitchPlayerInstance) => void) | undefined;
-  onPause?: ((player: TwitchPlayerInstance) => void) | undefined;
-  onPlay?: ((player: TwitchPlayerInstance, data: OnPlayData) => void) | undefined;
-  onPlaybackBlocked?: ((player: TwitchPlayerInstance) => void) | undefined;
-  onPlaying?: ((player: TwitchPlayerInstance) => void) | undefined;
-  onReady?: ((player: TwitchPlayerInstance) => void) | undefined;
-  onSeek?: ((player: TwitchPlayerInstance, data: OnSeekData) => void) | undefined;
-  parent?: Parent | undefined;
-  playsInline?: boolean | undefined;
+  onOffline?: Optional<(player: TwitchPlayerInstance) => void>;
+  onOnline?: Optional<(player: TwitchPlayerInstance) => void>;
+  onPause?: Optional<(player: TwitchPlayerInstance) => void>;
+  onPlay?: Optional<(player: TwitchPlayerInstance, data: OnPlayData) => void>;
+  onPlaybackBlocked?: Optional<(player: TwitchPlayerInstance) => void>;
+  onPlaying?: Optional<(player: TwitchPlayerInstance) => void>;
+  onReady?: Optional<(player: TwitchPlayerInstance) => void>;
+  onSeek?: Optional<(player: TwitchPlayerInstance, data: OnSeekData) => void>;
+  parent?: Optional<Parent>;
+  playsInline?: Optional<boolean>;
 
-  time?: string | undefined;
-  video?: string | undefined;
-  width?: number | string | undefined;
+  time?: Optional<string>;
+  video?: Optional<string>;
+  width?: Optional<number | string>;
 }
 
 type PlayerEventName = 'onCaptions' | 'onEnded' | 'onOffline' | 'onOnline' | 'onPause' | 'onPlay' | 'onPlaybackBlocked' | 'onPlaying' | 'onReady' | 'onSeek';
@@ -53,9 +53,9 @@ type PlayerEventName = 'onCaptions' | 'onEnded' | 'onOffline' | 'onOnline' | 'on
 type PlayerEventHandlers = { [K in PlayerEventName]: NonNullable<TwitchPlayerProps[K]> };
 
 interface Media {
-  channel?: string | undefined;
-  collection?: string | undefined;
-  video?: string | undefined;
+  channel?: Optional<string>;
+  collection?: Optional<string>;
+  video?: Optional<string>;
 }
 
 interface MountedPlayer {
@@ -178,7 +178,7 @@ const TwitchPlayer: FC<TwitchPlayerProps> = ({
       return;
     }
 
-    const PlayerConstructor: TwitchPlayerConstructor | undefined = (window as TwitchWindow).Twitch?.Player;
+    const PlayerConstructor: Optional<TwitchPlayerConstructor> = (window as TwitchWindow).Twitch?.Player;
 
     if (!PlayerConstructor) {
       return;

@@ -3,16 +3,17 @@ import { DEFAULTS } from '../constants';
 import useHostname from '../hooks/useHostname';
 import type { Parent } from '../utils/parent';
 import { generateUrl } from '../utils/TwitchClip';
+import type { Optional } from '../utils/types';
 
 export interface TwitchClipProps extends Omit<ComponentProps<'iframe'>, 'src'> {
-  autoplay?: boolean | undefined;
+  autoplay?: Optional<boolean>;
   clip: string;
-  height?: number | string | undefined;
-  muted?: boolean | undefined;
+  height?: Optional<number | string>;
+  muted?: Optional<boolean>;
 
-  parent?: Parent | undefined;
-  title?: string | undefined;
-  width?: number | string | undefined;
+  parent?: Optional<Parent>;
+  title?: Optional<string>;
+  width?: Optional<number | string>;
 }
 
 const TwitchClip: FC<TwitchClipProps> = ({

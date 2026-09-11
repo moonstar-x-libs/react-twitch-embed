@@ -1,10 +1,11 @@
 import { DEFAULTS, URLS } from '../constants';
 import { appendParents } from './parent';
 import type { Parent } from './parent';
+import type { Optional } from './types';
 
 export interface TwitchClipGenerateUrlOptions {
-  autoplay?: boolean | undefined;
-  muted?: boolean | undefined;
+  autoplay?: Optional<boolean>;
+  muted?: Optional<boolean>;
 }
 
 export const generateUrl = (

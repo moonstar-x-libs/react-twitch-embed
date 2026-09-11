@@ -1,17 +1,18 @@
 import { DEFAULTS, URLS } from '../constants';
 import { appendParents } from './parent';
 import type { Parent } from './parent';
+import type { Optional } from './types';
 
 export interface TwitchPlayerNonInteractiveMedia {
-  channel?: string | undefined;
-  collection?: string | undefined;
-  video?: string | undefined;
+  channel?: Optional<string>;
+  collection?: Optional<string>;
+  video?: Optional<string>;
 }
 
 export interface TwitchPlayerNonInteractiveOptions {
-  autoplay?: boolean | undefined;
-  muted?: boolean | undefined;
-  time?: string | undefined;
+  autoplay?: Optional<boolean>;
+  muted?: Optional<boolean>;
+  time?: Optional<string>;
 }
 
 export const generateUrl = (
