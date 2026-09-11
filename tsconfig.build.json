@@ -10,6 +10,7 @@
   ],
   "compilerOptions": {
     "noEmit": false,
+    "skipLibCheck": false,
     "emitDeclarationOnly": true,
     "declaration": true,
     "rootDir": "src",
