@@ -15,13 +15,14 @@ const setChannelMock = jest.fn();
 const setCollectionMock = jest.fn();
 const setVideoMock = jest.fn();
 const addEventListenerMock = jest.fn();
+const playerMock = {
+  setChannel: setChannelMock,
+  setCollection: setCollectionMock,
+  setVideo: setVideoMock
+};
 // Declared as a function expression so that the component can call it with `new`.
 const embedConstructorMock = jest.fn(() => ({
-  getPlayer: () => ({
-    setChannel: setChannelMock,
-    setCollection: setCollectionMock,
-    setVideo: setVideoMock
-  }),
+  getPlayer: (): typeof playerMock => playerMock,
   addEventListener: addEventListenerMock
 }));
 

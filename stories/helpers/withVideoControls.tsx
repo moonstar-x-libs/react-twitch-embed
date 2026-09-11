@@ -22,11 +22,11 @@ const withVideoControls = <P extends object>(
     playerRef.current?.pause();
   };
 
-  const handleVolumeChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleVolumeChange = (event: ChangeEvent<HTMLInputElement>): void => {
     playerRef.current?.setVolume(Number(event.currentTarget.value));
   };
 
-  const handleReady = (instance: TwitchPlayerInstance) => {
+  const handleReady = (instance: TwitchPlayerInstance): void => {
     playerRef.current = instance;
   };
 

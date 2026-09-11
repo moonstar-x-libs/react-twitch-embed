@@ -79,8 +79,8 @@ describe('Utils -> TwitchPlayerNonInteractive', () => {
       const parents = ['host1', 'host2', 'host3'];
       const url = generateUrl({ channel }, parents);
 
-      for (const parent of parents) {
-        expect(url).toContain(`parent=${parent}`);
+      for (const host of parents) {
+        expect(url).toContain(`parent=${host}`);
       }
     });
 

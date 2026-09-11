@@ -14,7 +14,7 @@ jest.mock('../hooks/useScript', () => ({
 const setChannelMock = jest.fn();
 const setCollectionMock = jest.fn();
 const setVideoMock = jest.fn();
-const addEventListenerMock = jest.fn();
+const addEventListenerMock = jest.fn<(event: string, listener: () => void) => void>();
 // Declared as a function expression so that the component can call it with `new`.
 const playerConstructorMock = jest.fn(() => ({
   setChannel: setChannelMock,
@@ -109,14 +109,15 @@ describe('Components -> TwitchPlayer', () => {
   });
 
   it('should call the latest handler even when it changes identity between renders.', () => {
-    const first = jest.fn();
-    const second = jest.fn();
+    const first = jest.fn<() => void>();
+    const second = jest.fn<() => void>();
 
     const { rerender } = render(<TwitchPlayer channel={channel} id={id} onReady={first} />);
     rerender(<TwitchPlayer channel={channel} id={id} onReady={second} />);
 
-    const readyListener = addEventListenerMock.mock.calls.find(([event]) => event === 'ready')?.[1] as () => void;
-    readyListener();
+    const readyListener = addEventListenerMock.mock.calls.find(([event]) => event === 'ready')?.[1];
+    expect(readyListener).toBeDefined();
+    readyListener?.();
 
     expect(first).not.toHaveBeenCalled();
     expect(second).toHaveBeenCalled();

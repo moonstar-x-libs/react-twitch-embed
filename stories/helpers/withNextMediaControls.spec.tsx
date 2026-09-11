@@ -1,8 +1,9 @@
 import { describe, expect, it } from '@jest/globals';
 import { fireEvent, render, screen } from '@testing-library/react';
+import type { ReactElement } from 'react';
 import withNextMediaControls from './withNextMediaControls';
 
-const MockComponent = ({ text }: { text: string }) => (
+const MockComponent = ({ text }: { text: string }): ReactElement => (
   <div>
     {text}
   </div>

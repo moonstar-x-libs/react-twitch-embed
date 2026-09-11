@@ -13,6 +13,13 @@ import storybook from 'eslint-plugin-storybook';
 
 export default [
   ...ignores,
+  {
+    name: 'ignores/local',
+    ignores: [
+      'docs-build/**',
+      'storybook-static/**'
+    ]
+  },
   ...base,
   ...typescript,
   ...browser,
