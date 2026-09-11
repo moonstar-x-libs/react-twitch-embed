@@ -1,11 +1,13 @@
 /**
  * Compares two objects by their own enumerable keys using strict equality on each value.
  */
-export const isShallowEqual = (o1: Record<string, unknown>, o2: Record<string, unknown>): boolean => {
-  const keys = new Set([...Object.keys(o1), ...Object.keys(o2)]);
+export const isShallowEqual = <T extends object>(o1: T, o2: T): boolean => {
+  const values1 = new Map<string, unknown>(Object.entries(o1));
+  const values2 = new Map<string, unknown>(Object.entries(o2));
+  const keys = new Set([...values1.keys(), ...values2.keys()]);
 
   for (const key of keys) {
-    if (o1[key] !== o2[key]) {
+    if (values1.get(key) !== values2.get(key)) {
       return false;
     }
   }
