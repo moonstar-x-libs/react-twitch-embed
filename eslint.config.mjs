@@ -22,6 +22,13 @@ export default [
   ...stylisticJsx,
   ...sorted,
   {
+    name: 'overrides',
+    rules: {
+      '@eslint-react/dom-no-missing-iframe-sandbox': 'off',
+      'unicorn/prefer-global-this': 'off'
+    }
+  },
+  {
     name: 'storybook',
     files: [
       'src/**/*.stories.tsx'

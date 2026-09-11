@@ -1,8 +1,9 @@
-import { URLS, DEFAULTS } from '../constants';
-import { appendParents, type Parent } from './parent';
+import { DEFAULTS, URLS } from '../constants';
+import { appendParents } from './parent';
+import type { Parent } from './parent';
 
 export interface TwitchChatGenerateUrlOptions {
-  darkMode?: boolean
+  darkMode?: boolean;
 }
 
 export const generateUrl = (

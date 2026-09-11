@@ -1,22 +1,23 @@
-import type { FC, HTMLAttributes } from 'react';
-import useHostname from '../hooks/useHostname';
+import type { ComponentProps, FC } from 'react';
 import { DEFAULTS } from '../constants';
-import { generateUrl } from '../utils/TwitchChat';
+import useHostname from '../hooks/useHostname';
 import type { Parent } from '../utils/parent';
+import { generateUrl } from '../utils/TwitchChat';
 
-export interface TwitchChatProps extends HTMLAttributes<HTMLIFrameElement> {
-  channel: string
-  parent?: Parent
-  darkMode?: boolean
+export interface TwitchChatProps extends ComponentProps<'iframe'> {
+  channel: string;
+  darkMode?: boolean | undefined;
+  height?: number | string | undefined;
 
-  title?: string
-  height?: string | number
-  width?: string | number
+  parent?: Parent | undefined;
+  title?: string | undefined;
+  width?: number | string | undefined;
 }
 
 const TwitchChat: FC<TwitchChatProps> = ({
   channel,
   parent,
+  style,
   darkMode = DEFAULTS.DARK_MODE,
 
   title = DEFAULTS.TITLE.TWITCH_CHAT,
@@ -27,19 +28,17 @@ const TwitchChat: FC<TwitchChatProps> = ({
   const hostname = useHostname();
   const resolvedParent = parent ?? hostname;
 
-  if (!resolvedParent) {
+  if (resolvedParent === undefined) {
     return null;
   }
 
-  const chatUrl = generateUrl(channel, resolvedParent, { darkMode });
-
   return (
     <iframe
-      title={title}
       height={height}
+      src={generateUrl(channel, resolvedParent, { darkMode })}
+      style={{ border: 'none', ...style }}
+      title={title}
       width={width}
-      src={chatUrl}
-      frameBorder={0}
       {...props}
     />
   );

@@ -2,6 +2,7 @@
   "extends": "./tsconfig.json",
   "include": [
     "src/**/*.ts",
+    "src/**/*.tsx",
     "jest.setup.ts",
     "jest.config.ts"
   ],

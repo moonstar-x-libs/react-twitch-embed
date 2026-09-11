@@ -6,6 +6,7 @@
   },
   "include": [
     "src/**/*.ts",
+    "src/**/*.tsx",
     ".storybook/**/*.ts",
     "jest.config.ts",
     "jest.setup.ts",

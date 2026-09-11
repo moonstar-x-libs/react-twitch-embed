@@ -1,7 +1,7 @@
 export type Parent = string | string[];
 
 export const toParentList = (parent: Parent | undefined): string[] | undefined => {
-  if (!parent) {
+  if (parent === undefined || parent === '') {
     return undefined;
   }
 
@@ -12,5 +12,8 @@ export const toParentList = (parent: Parent | undefined): string[] | undefined =
  * Twitch expects one `parent` query parameter per embedding host.
  */
 export const appendParents = (params: URLSearchParams, parent: Parent): void => {
-  toParentList(parent)?.forEach((host) => params.append('parent', host));
+  const parentList = toParentList(parent) ?? [];
+  for (const host of parentList) {
+    params.append('parent', host);
+  }
 };

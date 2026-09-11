@@ -60,6 +60,7 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-storybook": "^10.6.0",
     "jest": "^30.5.1",
+    "jest-environment-jsdom": "^30.5.1",
     "publint": "^0.3.24",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
