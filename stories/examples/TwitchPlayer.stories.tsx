@@ -235,17 +235,17 @@ export const CollectionWithInitialVideo: Story = {
 };
 
 export const ChannelSmoothSwitching: Story = {
-  render: withNextMediaControls(TwitchPlayer, 'channel', STORYBOOK_DEFAULTS.channels)
+  render: withAutoplayWarning(withNextMediaControls(TwitchPlayer, 'channel', STORYBOOK_DEFAULTS.channels))
 };
 
 export const VideosSmoothSwitching: Story = {
-  render: withNextMediaControls(TwitchPlayer, 'video', STORYBOOK_DEFAULTS.videos)
+  render: withAutoplayWarning(withNextMediaControls(TwitchPlayer, 'video', STORYBOOK_DEFAULTS.videos))
 };
 
 export const CollectionsSmoothSwitching: Story = {
-  render: withNextMediaControls(TwitchPlayer, 'collection', STORYBOOK_DEFAULTS.collections)
+  render: withAutoplayWarning(withNextMediaControls(TwitchPlayer, 'collection', STORYBOOK_DEFAULTS.collections))
 };
 
 export const ControlledFromOutside: Story = {
-  render: withVideoControls(TwitchPlayer, STORYBOOK_DEFAULTS.video, 'onReady')
+  render: withAutoplayWarning(withVideoControls(TwitchPlayer, STORYBOOK_DEFAULTS.video, 'onReady'))
 };

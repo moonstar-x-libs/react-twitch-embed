@@ -15,6 +15,13 @@ const withAutoplayWarning = <P extends object>(
         this component is rendered. Autoplay will work here if you use Isolated Mode.
       </p>
       <p>
+        This functionality includes play buttons controlled from outside, as the
+        {' '}
+        <code>playerRef.play()</code>
+        {' '}
+        method is also affected.
+      </p>
+      <p>
         Otherwise, this component should autoplay on your own project as long as you follow the
         {' '}
         <a href="https://dev.twitch.tv/docs/embed/#embedded-experiences-requirements">requirements.</a>
