@@ -3,7 +3,7 @@ import { appendParents } from './parent';
 import type { Parent } from './parent';
 
 export interface TwitchChatGenerateUrlOptions {
-  darkMode?: boolean;
+  darkMode?: boolean | undefined;
 }
 
 export const generateUrl = (

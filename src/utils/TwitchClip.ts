@@ -3,8 +3,8 @@ import { appendParents } from './parent';
 import type { Parent } from './parent';
 
 export interface TwitchClipGenerateUrlOptions {
-  autoplay?: boolean;
-  muted?: boolean;
+  autoplay?: boolean | undefined;
+  muted?: boolean | undefined;
 }
 
 export const generateUrl = (
