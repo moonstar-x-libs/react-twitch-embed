@@ -8,7 +8,6 @@ const pauseMock = jest.fn();
 const setVolumeMock = jest.fn();
 
 const MockComponent = ({ onReady }: { onReady: (player: TwitchPlayerInstance) => void }): null => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
   onReady({
     play: playMock,
     pause: pauseMock,

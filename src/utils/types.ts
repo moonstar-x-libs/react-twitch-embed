@@ -1,31 +1,104 @@
+/**
+ * A value that might not be present.
+ */
 export type Optional<T> = T | undefined;
+
+/**
+ * A value that might be explicitly empty.
+ */
 export type Nullable<T> = null | T;
 
+/**
+ * The payload received by the play events of the embed and the player.
+ */
 export interface OnPlayData {
+  /**
+   * The ID of the playback session that just started.
+   */
   sessionId: string;
 }
 
+/**
+ * The payload received by the seek event of the player.
+ */
 export interface OnSeekData {
+  /**
+   * The timestamp, in seconds, the playback has seeked to.
+   */
   position: number;
 }
 
+/**
+ * UNDOCUMENTED. The payload received by the authenticate event of the embed, describing the user
+ * whose stored browser credentials were used.
+ */
 export interface OnAuthenticateData {
+  /**
+   * The display name of the authenticated user.
+   */
   displayName: string;
+
+  /**
+   * The ID of the authenticated user.
+   */
   id: string;
+
+  /**
+   * The URL of the profile picture of the authenticated user.
+   */
   profileImageURL: string;
 }
 
+/**
+ * One of the video qualities available for the content being played, as returned by
+ * {@link TwitchPlayerInstance.getQualities}.
+ */
 export interface PlayerQuality {
+  /**
+   * The bitrate of this quality, in bits per second.
+   */
   bitrate: number;
+
+  /**
+   * The codecs used by this quality, comma-separated (video,audio).
+   */
   codecs: string;
+
+  /**
+   * The frame rate of this quality. Not available on all browsers.
+   */
   framerate?: Optional<number>;
+
+  /**
+   * The group name of this quality, which is the value accepted by {@link TwitchPlayerInstance.setQuality}.
+   */
   group: string;
+
+  /**
+   * The height of this quality, in pixels.
+   */
   height: number;
+
+  /**
+   * Whether this is the quality the player selects by default.
+   */
   isDefault: boolean;
+
+  /**
+   * The human readable name of this quality (eg. 1080p60).
+   */
   name: string;
+
+  /**
+   * The width of this quality, in pixels.
+   */
   width: number;
 }
 
+/**
+ * Statistics on the embedded video player and the current live stream or VOD, as returned by
+ * {@link TwitchPlayerInstance.getPlaybackStats}.
+ */
 export interface PlaybackStats {
   /**
    * The version of the Twitch video player backend.
@@ -73,25 +146,92 @@ export interface PlaybackStats {
   videoResolution: string;
 }
 
+/**
+ * UNDOCUMENTED. A snapshot of the current state of the player, as returned by
+ * {@link TwitchPlayerInstance.getPlayerState}.
+ */
 export interface PlayerState {
+  /**
+   * The ID of the channel being played.
+   */
   channelID: string;
+
+  /**
+   * The name of the channel being played.
+   */
   channelName: string;
+
+  /**
+   * The ID of the collection being played.
+   */
   collectionID: string;
+
+  /**
+   * The timestamp of the content being played, in seconds.
+   */
   currentTime: number;
+
+  /**
+   * The duration of the content being played, in seconds.
+   */
   duration: number;
+
+  /**
+   * Whether the live stream or VOD has ended.
+   */
   ended: boolean;
+
+  /**
+   * Whether the player is muted. This is independent of the volume setting.
+   */
   muted: boolean;
+
+  /**
+   * The current playback status of the player.
+   */
   playback: 'Buffering' | 'Ended' | 'Idle' | 'Playing' | 'Ready';
+
+  /**
+   * The group names of the video qualities available for the content being played.
+   */
   qualitiesAvailable: string[];
+
+  /**
+   * The group name of the video quality currently being played.
+   */
   quality: string;
+
+  /**
+   * The playback statistics of the player.
+   */
   stats: {
     videoStats: PlaybackStats;
   };
+
+  /**
+   * The ID of the video being played.
+   */
   videoID: string;
+
+  /**
+   * The volume level, a value between 0.0 and 1.0.
+   */
   volume: number;
 }
 
+/**
+ * The instance of the Twitch player created by {@link TwitchPlayerConstructor}, exposed by the
+ * events of the `TwitchPlayer` component.
+ *
+ * These typings are unofficial and were made empirically, so some of them might not be accurate.
+ */
 export interface TwitchPlayerInstance extends EventTarget {
+  /**
+   * Subscribes a callback to one of the events exposed by {@link TwitchPlayerConstructor}. The
+   * `TwitchPlayer` component already subscribes to every event, so you rarely need to call this yourself.
+   * @param event
+   * @param callback
+   */
   // The payload depends on the event, so each caller narrows it at the call site.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   addEventListener: (event: string, callback: (...args: any[]) => void) => void;
@@ -242,22 +382,84 @@ export interface TwitchPlayerInstance extends EventTarget {
   setVolume: (volumeLevel: number) => void;
 }
 
+/**
+ * The options accepted by {@link TwitchPlayerConstructor}. These are the Twitch option names, which
+ * the `TwitchPlayer` component builds from its own props.
+ */
 export interface TwitchPlayerConstructorOptions {
+  /**
+   * Whether the player allows the content to be played in fullscreen mode.
+   */
   allowfullscreen?: Optional<boolean>;
+
+  /**
+   * Whether the content should autoplay on load.
+   */
   autoplay?: Optional<boolean>;
+
+  /**
+   * The name of the channel to play their stream.
+   */
   channel?: Optional<string>;
+
+  /**
+   * The ID of the collection to play.
+   */
   collection?: Optional<string>;
+
+  /**
+   * Whether the player controls should be displayed.
+   */
   controls?: Optional<boolean>;
+
+  /**
+   * The height of the player. Percentage values can be used (i.e. `100%`).
+   */
   height?: Optional<number | string>;
+
+  /**
+   * Whether the content should start muted when playing.
+   */
   muted?: Optional<boolean>;
+
+  /**
+   * The hostnames of the sites that are embedding this player, one entry per host.
+   */
   parent?: Optional<string[]>;
+
+  /**
+   * Whether the player plays inline for mobile iOS apps.
+   */
   playsinline?: Optional<boolean>;
+
+  /**
+   * The timestamp from where the content should play, formatted like `XhYmZs`.
+   */
   time?: Optional<string>;
+
+  /**
+   * The ID of the video to play.
+   */
   video?: Optional<string>;
+
+  /**
+   * The width of the player. Percentage values can be used (i.e. `100%`).
+   */
   width?: Optional<number | string>;
 }
 
+/**
+ * The `Twitch.Player` constructor downloaded into the browser's `window` object by the Twitch player
+ * script, along with the names of the events its instances emit.
+ *
+ * These typings are unofficial and were made empirically, so some of them might not be accurate.
+ */
 export interface TwitchPlayerConstructor {
+  /**
+   * Creates a player inside the element with the given ID, replacing its contents.
+   * @param id
+   * @param options
+   */
   new (id: string, options: TwitchPlayerConstructorOptions): TwitchPlayerInstance;
 
   /**
@@ -315,6 +517,13 @@ export interface TwitchPlayerConstructor {
   SEEK: string;
 }
 
+/**
+ * The instance of the Twitch embed created by {@link TwitchEmbedConstructor}, exposed by the events
+ * of the `TwitchEmbed` component. It supports the whole {@link TwitchPlayerInstance} API on top of
+ * its own members.
+ *
+ * These typings are unofficial and were made empirically, so some of them might not be accurate.
+ */
 export interface TwitchEmbedInstance extends TwitchPlayerInstance {
   /**
    * To provide additional functionality to our API, access specific components with getPlayer(),
@@ -323,23 +532,89 @@ export interface TwitchEmbedInstance extends TwitchPlayerInstance {
   getPlayer: () => TwitchPlayerInstance;
 }
 
+/**
+ * The options accepted by {@link TwitchEmbedConstructor}. These are the Twitch option names, which
+ * the `TwitchEmbed` component builds from its own props.
+ */
 export interface TwitchEmbedConstructorOptions {
+  /**
+   * Whether the player allows the content to be played in fullscreen mode.
+   */
   allowfullscreen?: Optional<boolean>;
+
+  /**
+   * Whether the content should autoplay on load.
+   */
   autoplay?: Optional<boolean>;
+
+  /**
+   * The name of the channel to embed their stream.
+   */
   channel?: Optional<string>;
+
+  /**
+   * The ID of the collection to embed.
+   */
   collection?: Optional<string>;
+
+  /**
+   * Whether the player controls should be displayed.
+   */
   controls?: Optional<boolean>;
+
+  /**
+   * The height of the embed. Percentage values can be used (i.e. `100%`).
+   */
   height?: Optional<number | string>;
+
+  /**
+   * Whether the embed should include the live chat next to the video.
+   */
   layout?: Optional<'video' | 'video-with-chat'>;
+
+  /**
+   * Whether the content should start muted when playing.
+   */
   muted?: Optional<boolean>;
+
+  /**
+   * The hostnames of the sites that are embedding this player, one entry per host.
+   */
   parent?: Optional<Nullable<string[]>>;
+
+  /**
+   * The theme the embed is displayed with.
+   */
   theme?: Optional<'dark' | 'light'>;
+
+  /**
+   * The timestamp from where the content should play, formatted like `XhYmZs`.
+   */
   time?: Optional<string>;
+
+  /**
+   * The ID of the video to embed.
+   */
   video?: Optional<string>;
+
+  /**
+   * The width of the embed. Percentage values can be used (i.e. `100%`).
+   */
   width?: Optional<number | string>;
 }
 
+/**
+ * The `Twitch.Embed` constructor downloaded into the browser's `window` object by the Twitch embed
+ * script, along with the names of the events its instances emit.
+ *
+ * These typings are unofficial and were made empirically, so some of them might not be accurate.
+ */
 export interface TwitchEmbedConstructor {
+  /**
+   * Creates an embed inside the element with the given ID, replacing its contents.
+   * @param id
+   * @param options
+   */
   new (id: string, options: TwitchEmbedConstructorOptions): TwitchEmbedInstance;
 
   /**
@@ -364,9 +639,31 @@ export interface TwitchEmbedConstructor {
   VIDEO_READY: string;
 }
 
+/**
+ * The browser `window` once the Twitch embed or player script has loaded. Cast `window` to this type
+ * to reach the constructors that the scripts install, keeping in mind that they are only there after
+ * the corresponding script has finished loading.
+ *
+ * @example
+ * ```ts
+ * import type { TwitchWindow } from 'react-twitch-embed';
+ *
+ * const PlayerConstructor = (window as TwitchWindow).Twitch?.Player;
+ * ```
+ */
 export interface TwitchWindow extends Window {
+  /**
+   * The namespace installed by the Twitch scripts, if any of them has loaded.
+   */
   Twitch?: Optional<{
+    /**
+     * The embed constructor, installed by the Twitch embed script.
+     */
     Embed?: Optional<TwitchEmbedConstructor>;
+
+    /**
+     * The player constructor, installed by the Twitch player script.
+     */
     Player?: Optional<TwitchPlayerConstructor>;
   }>;
 }

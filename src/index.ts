@@ -8,6 +8,7 @@ export type { TwitchPlayerProps } from './components/TwitchPlayer';
 export { TwitchPlayer } from './components/TwitchPlayer';
 export type { TwitchPlayerNonInteractiveProps } from './components/TwitchPlayerNonInteractive';
 export { TwitchPlayerNonInteractive } from './components/TwitchPlayerNonInteractive';
+export type { Parent } from './utils/parent';
 export type {
   OnAuthenticateData,
   OnPlayData,
