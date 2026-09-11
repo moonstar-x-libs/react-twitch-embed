@@ -1,12 +1,14 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { renderHook, waitFor } from '@testing-library/react';
+import { act, renderHook, waitFor } from '@testing-library/react';
 import useScript from './useScript';
 
 describe('Hooks -> useScript', () => {
   const spyForCreateElement = jest.spyOn(document, 'createElement');
 
   beforeEach(() => {
-    document.querySelectorAll('script').forEach((script) => script.remove());
+    document.querySelectorAll('script').forEach((script): void => {
+      script.remove();
+    });
     spyForCreateElement.mockClear();
   });
 
@@ -50,7 +52,9 @@ describe('Hooks -> useScript', () => {
     const source = 'https://example.com/loads.js';
     const { result } = renderHook(() => useScript(source));
 
-    document.querySelector(`script[src="${CSS.escape(source)}"]`)?.dispatchEvent(new Event('load'));
+    act(() => {
+      document.querySelector(`script[src="${CSS.escape(source)}"]`)?.dispatchEvent(new Event('load'));
+    });
 
     await waitFor(() => {
       expect(result.current).toEqual({ loading: false, error: null });
@@ -61,7 +65,9 @@ describe('Hooks -> useScript', () => {
     const source = 'https://example.com/fails.js';
     const { result } = renderHook(() => useScript(source));
 
-    document.querySelector(`script[src="${CSS.escape(source)}"]`)?.dispatchEvent(new Event('error'));
+    act(() => {
+      document.querySelector(`script[src="${CSS.escape(source)}"]`)?.dispatchEvent(new Event('error'));
+    });
 
     await waitFor(() => {
       expect(result.current.loading).toBe(false);
