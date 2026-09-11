@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react';
-import type { FC, HTMLAttributes, RefObject } from 'react';
+import type { ComponentProps, FC, RefObject } from 'react';
 import { DEFAULTS, URLS } from '../constants';
 import useLatest from '../hooks/useLatest';
 import useParents from '../hooks/useParents';
@@ -17,9 +17,9 @@ import type {
   TwitchWindow
 } from '../utils/types';
 
-type PlayerHTMLAttributes = Omit<HTMLAttributes<HTMLDivElement>, 'onEnded' | 'onPause' | 'onPlay' | 'onPlaying'>;
+type PlayerDivProps = Omit<ComponentProps<'div'>, 'onEnded' | 'onPause' | 'onPlay' | 'onPlaying'>;
 
-export interface TwitchPlayerProps extends PlayerHTMLAttributes {
+export interface TwitchPlayerProps extends PlayerDivProps {
   allowFullscreen?: boolean | undefined;
   autoplay?: boolean | undefined;
   channel?: string | undefined;
