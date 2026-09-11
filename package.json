@@ -6,7 +6,10 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "lint:package": "publint"
+    "lint:package": "publint",
+    "test": "jest",
+    "test:watch": "npm test -- --watch",
+    "test:coverage": "npm test -- --coverage"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.es.js",
@@ -43,20 +46,41 @@
     "url": "https://github.com/moonstar-x-libs/react-twitch-embed/issues"
   },
   "devDependencies": {
+    "@jest/globals": "^30.5.1",
     "@moonstar-x/eslint-config": "^2.0.0",
     "@moonstar-x/tsconfig": "^1.0.1",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
     "@types/node": "^26.5.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@typescript-eslint/parser": "^8.70.0",
     "eslint": "^10.10.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-storybook": "^10.6.0",
+    "jest": "^30.5.1",
     "publint": "^0.3.24",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "ts-jest": "^29.4.12",
     "typescript": "^6.0.3"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0 || ^19.0.0",
+    "react-dom": "^18.2.0 || ^19.0.0"
   },
   "sideEffects": false,
   "engines": {
     "node": ">=20.19"
   },
+  "overrides": {
+    "eslint-plugin-jsx-a11y": {
+      "eslint": "$eslint"
+    }
+  },
   "allowScripts": {
-    "unrs-resolver@1.12.2": true
+    "unrs-resolver@1.12.2": true,
+    "@parcel/watcher@2.6.0": true
   }
 }
