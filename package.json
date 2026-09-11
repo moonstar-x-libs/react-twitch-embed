@@ -3,7 +3,10 @@
   "version": "3.1.0",
   "description": "A collection of components to embed Twitch.",
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:package": "publint"
   },
   "main": "./dist/index.js",
   "module": "./dist/index.es.js",
@@ -40,11 +43,20 @@
     "url": "https://github.com/moonstar-x-libs/react-twitch-embed/issues"
   },
   "devDependencies": {
+    "@moonstar-x/eslint-config": "^2.0.0",
     "@moonstar-x/tsconfig": "^1.0.1",
-    "typescript": "^7.0.2"
+    "@types/node": "^26.5.1",
+    "eslint": "^10.10.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-storybook": "^10.6.0",
+    "publint": "^0.3.24",
+    "typescript": "^6.0.3"
   },
   "sideEffects": false,
   "engines": {
     "node": ">=20.19"
+  },
+  "allowScripts": {
+    "unrs-resolver@1.12.2": true
   }
 }
