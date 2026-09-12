@@ -44,6 +44,13 @@ describe('Stories -> Helpers -> withNextMediaControls()', () => {
     expect(screen.getByText(/^whats up$/u)).toBeInTheDocument();
   });
 
+  it('should render an empty value when there is no media to show.', () => {
+    const EmptyComponent = withNextMediaControls(MockComponent, propName, []);
+    render(<EmptyComponent />);
+
+    expect(screen.getByText(new RegExp(`Current${propName}:$`, 'u'))).toBeInTheDocument();
+  });
+
   it('should update to the first value when Next button is clicked and the current value is the last one.', () => {
     render(<TestComponent />);
     const nextButton = screen.getByText(/Next/u);

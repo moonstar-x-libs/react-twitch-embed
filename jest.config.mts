@@ -20,6 +20,7 @@ const config: Config = {
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
     'stories/**/*.{ts,tsx}',
+    '!stories/**/*.stories.{ts,tsx}',
     '!src/**/*.spec.{ts,tsx}',
     '!src/types.ts',
     '!src/index.ts'

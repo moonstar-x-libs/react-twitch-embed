@@ -48,6 +48,29 @@ describe('Hooks -> useScript', () => {
     expect(document.querySelectorAll(`script[src="${CSS.escape(source)}"]`)).toHaveLength(1);
   });
 
+  it('should sync with an already existing script that finished loading.', async () => {
+    const source = 'https://example.com/already-loaded.js';
+    const first = renderHook(() => useScript(source));
+
+    act(() => {
+      document.querySelector(`script[src="${CSS.escape(source)}"]`)?.dispatchEvent(new Event('load'));
+    });
+
+    await waitFor(() => {
+      expect(first.result.current.loading).toBe(false);
+    });
+    first.unmount();
+    spyForCreateElement.mockClear();
+
+    const { result } = renderHook(() => useScript(source));
+
+    await waitFor(() => {
+      expect(result.current).toEqual({ loading: false, error: null });
+    });
+    expect(spyForCreateElement).not.toHaveBeenCalledWith('script');
+    expect(document.querySelectorAll(`script[src="${CSS.escape(source)}"]`)).toHaveLength(1);
+  });
+
   it('should settle once the script loads.', async () => {
     const source = 'https://example.com/loads.js';
     const { result } = renderHook(() => useScript(source));

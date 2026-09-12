@@ -29,5 +29,18 @@ describe('Utils -> parent', () => {
       appendParents(params, ['host1', 'host2', 'host3']);
       expect(params.getAll('parent')).toEqual(['host1', 'host2', 'host3']);
     });
+
+    it('should append nothing for an empty parent.', () => {
+      const params = new URLSearchParams();
+      appendParents(params, '');
+      expect(params.getAll('parent')).toEqual([]);
+      expect(params.toString()).toBe('');
+    });
+
+    it('should append nothing for an empty parent array.', () => {
+      const params = new URLSearchParams();
+      appendParents(params, []);
+      expect(params.getAll('parent')).toEqual([]);
+    });
   });
 });
