@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
-import type { TwitchEmbedConstructor, TwitchWindow } from '../utils/types';
+import useScript from '../hooks/useScript';
+import type { TwitchEmbedConstructor, TwitchEmbedConstructorOptions, TwitchWindow } from '../utils/types';
 import { TwitchEmbed } from './TwitchEmbed';
 
 const channel = 'channel';
@@ -8,8 +9,10 @@ const id = 'twitch-embed';
 
 jest.mock('../hooks/useScript', () => ({
   __esModule: true,
-  default: jest.fn().mockReturnValue({ loading: false, error: null })
+  default: jest.fn()
 }));
+
+const useScriptMock = jest.mocked(useScript);
 
 const setChannelMock = jest.fn();
 const setCollectionMock = jest.fn();
@@ -21,7 +24,7 @@ const playerMock = {
   setVideo: setVideoMock
 };
 // Declared as a function expression so that the component can call it with `new`.
-const embedConstructorMock = jest.fn(() => ({
+const embedConstructorMock = jest.fn((_id: string, _options: TwitchEmbedConstructorOptions) => ({
   getPlayer: (): typeof playerMock => playerMock,
   addEventListener: addEventListenerMock
 }));
@@ -32,6 +35,7 @@ const embedConstructorMock = jest.fn(() => ({
 
 describe('Components -> TwitchEmbed', () => {
   beforeEach(() => {
+    useScriptMock.mockReturnValue({ loading: false, error: null });
     embedConstructorMock.mockClear();
     setChannelMock.mockClear();
     setCollectionMock.mockClear();
@@ -93,5 +97,60 @@ describe('Components -> TwitchEmbed', () => {
 
     rerender(<TwitchEmbed channel={channel} id={id} withChat={false} />);
     expect(embedConstructorMock).toHaveBeenCalledTimes(2);
+  });
+
+  it('should construct the embed with the theme that the darkMode prop selects.', () => {
+    const { rerender } = render(<TwitchEmbed darkMode channel={channel} id={id} />);
+    expect(embedConstructorMock).toHaveBeenCalledWith(id, expect.objectContaining({ theme: 'dark' }));
+
+    rerender(<TwitchEmbed channel={channel} darkMode={false} id={id} />);
+    expect(embedConstructorMock).toHaveBeenCalledWith(id, expect.objectContaining({ theme: 'light' }));
+  });
+
+  it('should render nothing while the script is still loading.', () => {
+    useScriptMock.mockReturnValue({ loading: true, error: null });
+
+    const { container } = render(<TwitchEmbed channel={channel} id={id} />);
+
+    expect(container).toBeEmptyDOMElement();
+    expect(embedConstructorMock).not.toHaveBeenCalled();
+  });
+
+  it('should log the error and not create the embed when the script fails to load.', () => {
+    const error = new Error('There was an error loading the script.');
+    const spyForConsoleError = jest.spyOn(console, 'error').mockImplementation(() => undefined);
+    useScriptMock.mockReturnValue({ loading: false, error });
+
+    render(<TwitchEmbed channel={channel} data-testid="twitch-embed" id={id} />);
+
+    expect(spyForConsoleError).toHaveBeenCalledWith(error);
+    expect(embedConstructorMock).not.toHaveBeenCalled();
+    expect(screen.getByTestId('twitch-embed')).toBeInTheDocument();
+
+    spyForConsoleError.mockRestore();
+  });
+
+  it('should not create the embed when the Twitch namespace is not installed.', () => {
+    const twitch = (window as TwitchWindow).Twitch;
+    (window as TwitchWindow).Twitch = undefined;
+
+    render(<TwitchEmbed channel={channel} data-testid="twitch-embed" id={id} />);
+
+    expect(embedConstructorMock).not.toHaveBeenCalled();
+    expect(screen.getByTestId('twitch-embed')).toBeInTheDocument();
+
+    (window as TwitchWindow).Twitch = twitch;
+  });
+
+  it('should not create the embed when the embed constructor is not installed.', () => {
+    const twitch = (window as TwitchWindow).Twitch;
+    (window as TwitchWindow).Twitch = { Embed: undefined };
+
+    render(<TwitchEmbed channel={channel} data-testid="twitch-embed" id={id} />);
+
+    expect(embedConstructorMock).not.toHaveBeenCalled();
+    expect(screen.getByTestId('twitch-embed')).toBeInTheDocument();
+
+    (window as TwitchWindow).Twitch = twitch;
   });
 });

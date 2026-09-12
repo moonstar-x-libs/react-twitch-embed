@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { render, screen } from '@testing-library/react';
+import useScript from '../hooks/useScript';
 import type { TwitchPlayerConstructor, TwitchWindow } from '../utils/types';
 import { TwitchPlayer } from './TwitchPlayer';
 
@@ -8,8 +9,10 @@ const id = 'twitch-player';
 
 jest.mock('../hooks/useScript', () => ({
   __esModule: true,
-  default: jest.fn().mockReturnValue({ loading: false, error: null })
+  default: jest.fn()
 }));
+
+const useScriptMock = jest.mocked(useScript);
 
 const setChannelMock = jest.fn();
 const setCollectionMock = jest.fn();
@@ -42,6 +45,7 @@ Object.assign(playerConstructorMock, {
 
 describe('Components -> TwitchPlayer', () => {
   beforeEach(() => {
+    useScriptMock.mockReturnValue({ loading: false, error: null });
     playerConstructorMock.mockClear();
     setChannelMock.mockClear();
     setCollectionMock.mockClear();
@@ -119,5 +123,52 @@ describe('Components -> TwitchPlayer', () => {
 
     expect(first).not.toHaveBeenCalled();
     expect(second).toHaveBeenCalled();
+  });
+
+  it('should render nothing while the script is still loading.', () => {
+    useScriptMock.mockReturnValue({ loading: true, error: null });
+
+    const { container } = render(<TwitchPlayer channel={channel} id={id} />);
+
+    expect(container).toBeEmptyDOMElement();
+    expect(playerConstructorMock).not.toHaveBeenCalled();
+  });
+
+  it('should log the error and not create the player when the script fails to load.', () => {
+    const error = new Error('There was an error loading the script.');
+    const spyForConsoleError = jest.spyOn(console, 'error').mockImplementation(() => undefined);
+    useScriptMock.mockReturnValue({ loading: false, error });
+
+    render(<TwitchPlayer channel={channel} data-testid="twitch-player" id={id} />);
+
+    expect(spyForConsoleError).toHaveBeenCalledWith(error);
+    expect(playerConstructorMock).not.toHaveBeenCalled();
+    expect(screen.getByTestId('twitch-player')).toBeInTheDocument();
+
+    spyForConsoleError.mockRestore();
+  });
+
+  it('should not create the player when the Twitch namespace is not installed.', () => {
+    const twitch = (window as TwitchWindow).Twitch;
+    (window as TwitchWindow).Twitch = undefined;
+
+    render(<TwitchPlayer channel={channel} data-testid="twitch-player" id={id} />);
+
+    expect(playerConstructorMock).not.toHaveBeenCalled();
+    expect(screen.getByTestId('twitch-player')).toBeInTheDocument();
+
+    (window as TwitchWindow).Twitch = twitch;
+  });
+
+  it('should not create the player when the player constructor is not installed.', () => {
+    const twitch = (window as TwitchWindow).Twitch;
+    (window as TwitchWindow).Twitch = { Player: undefined };
+
+    render(<TwitchPlayer channel={channel} data-testid="twitch-player" id={id} />);
+
+    expect(playerConstructorMock).not.toHaveBeenCalled();
+    expect(screen.getByTestId('twitch-player')).toBeInTheDocument();
+
+    (window as TwitchWindow).Twitch = twitch;
   });
 });
