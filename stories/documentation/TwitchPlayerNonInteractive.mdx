@@ -1,0 +1,53 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Documentation/TwitchPlayerNonInteractive" />
+
+# TwitchPlayerNonInteractive
+
+This component frames a non-interactive player for streams, VODs and collections. This component does not contain
+an underlying API, and it's just a simple `iframe`.
+
+Using this or the interactive player component is up to you. They both do the same thing, but the key difference is
+that updating the `channel`, `video` and or `collection` props will still recreate the embed, while this does not happen
+on the interactive player.
+
+## Props
+
+The following props are supported by this component:
+
+| Name         | Type                       | Required | Default                      | Description                                                                                                                                                                                           |
+|--------------|----------------------------|----------|------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `parent`     | **string &#124; string[]** | ❌       | `window.location.hostname`   | The URL of the site that is embedding this player. Multiple values can be added. You don't need to specify this as the current hostname is already picked up.                                         |
+| `channel`    | **string**                 | ❌       |                              | The name of the channel to embed their stream.                                                                                                                                                        |
+| `video`      | **string**                 | ❌       |                              | The ID of the video to embed.                                                                                                                                                                         |
+| `collection` | **string**                 | ❌       |                              | The ID of collection to embed. If both `video` and `collection` are provided, the player will play the provided collection while starting with the provided video.                                    |
+| `autoplay`   | **boolean**                | ❌       | `true`                       | Whether the content should autoplay on load. Keep in mind that the audio might not play unless the user has focused at least once on the player.                                                      |
+| `muted`      | **boolean**                | ❌       | `false`                      | Whether the content should start muted when playing. The user can still change the volume later.                                                                                                      |
+| `time`       | **string**                 | ❌       | `0h0m0s`                     | The timestamp from where the content should play. If a `channel` is provided then this setting is ignored. Should be a string formatted like `XhYmZs` for an X hour, Y minute and Z second timestamp. |
+| `title`      | **string**                 | ❌       | `TwitchPlayerNonInteractive` | The name of the `iframe` that embeds the player. Useful for accessibility reasons.                                                                                                                    |
+| `height`     | **string &#124; number**   | ❌       | `480`                        | The height of the player embed. Percentage values can be used (i.e `100%`).                                                                                                                           |
+| `width`      | **string &#124; number**   | ❌       | `940`                        | The width of the player embed. Percentage values can be used (i.e `100%`).                                                                                                                            |
+| `...props`   |                            |          |                              | The rest of the props are passed to the underlying `iframe` node.                                                                                                                                     |
+
+> **Note**: If `channel`, `video` and `collection` are provided, only `channel` is taken into account.
+> If `collection` and `video` are provided, the player will play the videos in the collection starting from the video that was provided.
+> If the collection doesn't contain the video, the player might enter an undefined state where one of the following may happen.
+> 
+> 1. The player might start playing the video provided while saying that is playing the collection provided, even if the video isn't part of the collection.
+> 2. The player might start playing the collection provided while ignoring the video (the official docs mention that this is the default behavior, but I've seen the others happen, so it isn't 100% certain).
+> 3. The player might remain black and not play anything.
+
+## Example
+
+```jsx
+import React from 'react';
+import { TwitchPlayerNonInteractive } from 'react-twitch-embed';
+
+const MyComponent = () => {
+  return (
+    <TwitchPlayerNonInteractive channel="moonstar_x" autoplay muted />
+  );
+};
+
+export default MyComponent;
+```

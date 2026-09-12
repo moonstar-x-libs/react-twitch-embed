@@ -1,32 +1,25 @@
-import { URLS, DEFAULTS } from '../constants';
+import { DEFAULTS, URLS } from '../constants';
+import { appendParents } from './parent';
+import type { Parent } from './parent';
+import type { Optional } from './types';
 
 export interface TwitchClipGenerateUrlOptions {
-  autoplay?: boolean
-  muted?: boolean
+  autoplay?: Optional<boolean>;
+  muted?: Optional<boolean>;
 }
-
-const generateUrlDefaultOptions: TwitchClipGenerateUrlOptions = {
-  autoplay: DEFAULTS.AUTOPLAY,
-  muted: DEFAULTS.MUTED
-};
 
 export const generateUrl = (
   clip: string,
-  parent: string | string[],
-  options = generateUrlDefaultOptions
+  parent: Parent,
+  options: TwitchClipGenerateUrlOptions = {}
 ): string => {
-  const fullOptions = { ...generateUrlDefaultOptions, ...options };
+  const { autoplay = DEFAULTS.AUTOPLAY, muted = DEFAULTS.MUTED } = options;
   const params = new URLSearchParams();
+
   params.append('clip', clip);
-
-  params.append('autoplay', fullOptions.autoplay!.toString());
-  params.append('muted', fullOptions.muted!.toString());
-
-  if (Array.isArray(parent)) {
-    parent.forEach((parent) => params.append('parent', parent));
-  } else {
-    params.append('parent', parent);
-  }
+  params.append('autoplay', autoplay.toString());
+  params.append('muted', muted.toString());
+  appendParents(params, parent);
 
   return `${URLS.TWITCH_CLIP_URL}?${params.toString()}`;
 };

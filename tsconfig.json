@@ -1,44 +1,23 @@
 {
-  "include": ["src/**/*"],
-  "exclude": [
-    "dist",
-    "node_modules",
-    "src/**/*.spec.*",
-    "src/stories"
-  ],
-
+  "extends": "@moonstar-x/tsconfig/react",
   "compilerOptions": {
-    "target": "es2016",
-    "module": "es6",
-    "allowJs": false,
-    "declaration": true,
-    "declarationMap": true,
-    "outDir": "dist",
-    "resolveJsonModule": true,
-
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictBindCallApply": true,
-    "strictPropertyInitialization": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "useUnknownInCatchVariables": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitOverride": true,
-
-    "emitDeclarationOnly": true,
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
+    "target": "es2022",
+    "lib": ["es2022", "dom", "dom.iterable"],
 
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-
-    "jsx": "react"
-  }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "stories/**/*.ts",
+    "stories/**/*.tsx",
+    ".storybook/**/*.ts",
+    "jest.config.mts",
+    "jest.setup.ts",
+    "vite.config.mts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

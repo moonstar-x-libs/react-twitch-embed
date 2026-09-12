@@ -1,0 +1,15 @@
+name: On Push (main)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Run Tests
+    uses: ./.github/workflows/callable-test.yml
+    with:
+      with_coverage: false
+    secrets:
+      machine_account_token: ${{ secrets.MACHINE_ACCOUNT_TOKEN }}

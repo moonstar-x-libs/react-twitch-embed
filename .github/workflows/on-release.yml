@@ -1,0 +1,38 @@
+name: On Release
+
+on:
+  release:
+    types:
+      - released
+
+run-name: Release ${{ github.event.release.tag_name }} by @${{ github.actor }}
+
+jobs:
+  test:
+    name: Run Tests
+    uses: ./.github/workflows/callable-test.yml
+    with:
+      with_coverage: false
+    secrets:
+      machine_account_token: ${{ secrets.MACHINE_ACCOUNT_TOKEN }}
+
+  docs:
+    name: Deploy Docs
+    uses: ./.github/workflows/callable-deploy-docs.yml
+    needs:
+      - test
+    with:
+      docs_repo: ${{ vars.DOCS_REPO }}
+      docs_branch: gh-pages
+      commit_message: Release ${{ github.event.release.tag_name }} by @${{ github.actor }}
+    secrets:
+      docs_machine_account_token: ${{ secrets.DOCS_MACHINE_ACCOUNT_TOKEN }}
+
+  publish:
+    name: Publish Package
+    uses: ./.github/workflows/callable-publish.yml
+    needs:
+      - docs
+    permissions:
+      id-token: write
+      contents: read

@@ -1,31 +1,34 @@
-import { objectCompareWithIgnoredKeys } from './object';
+import { describe, expect, it } from '@jest/globals';
+import { isShallowEqual } from './object';
 
 describe('Utils -> object', () => {
-  describe('objectCompareWithIgnoredKeys()', () => {
-    it('should return true if properties other than ignored have changed.', () => {
-      const o1 = { a: 1, b: 2, c: 3 };
-      const o2 = { a: 1, b: 3, c: 2 };
-      const keys = ['b'];
-      const result = objectCompareWithIgnoredKeys(o1, o2, keys);
-
-      expect(result).toBe(true);
+  describe('shallowEqual()', () => {
+    it('should return true for the same object.', () => {
+      const object = { a: 1, b: 2, c: 3 };
+      expect(isShallowEqual(object, object)).toBe(true);
     });
 
-    it('should return false if no properties have changed.', () => {
-      const obj = { a: 1, b: 2, c: 3 };
-      const keys = ['a'];
-      const result = objectCompareWithIgnoredKeys(obj, obj, keys);
-
-      expect(result).toBe(false);
+    it('should return true if all values are strictly equal.', () => {
+      expect(isShallowEqual({ a: 1, b: 2 }, { a: 1, b: 2 })).toBe(true);
     });
 
-    it('should return false if only properties that are ignored have changed.', () => {
-      const o1 = { a: 1, b: 2, c: 3 };
-      const o2 = { a: 1, b: 3, c: 2 };
-      const keys = ['b', 'c'];
-      const result = objectCompareWithIgnoredKeys(o1, o2, keys);
+    it('should return false if a value has changed.', () => {
+      expect(isShallowEqual({ a: 1, b: 2 }, { a: 1, b: 3 })).toBe(false);
+    });
 
-      expect(result).toBe(false);
+    it('should return false if a key is only present in one of the objects.', () => {
+      expect(isShallowEqual({ a: 1 }, { a: 1, b: 2 })).toBe(false);
+      expect(isShallowEqual({ a: 1, b: 2 }, { a: 1 })).toBe(false);
+    });
+
+    it('should compare nested values by reference.', () => {
+      const nested = { deep: true };
+      expect(isShallowEqual({ nested }, { nested })).toBe(true);
+      expect(isShallowEqual({ nested: { deep: true } }, { nested: { deep: true } })).toBe(false);
+    });
+
+    it('should treat an undefined value and a missing key as equal.', () => {
+      expect(isShallowEqual({ a: undefined }, {})).toBe(true);
     });
   });
 });

@@ -1,5 +1,6 @@
-import { generateUrl } from './TwitchClip';
+import { describe, expect, it } from '@jest/globals';
 import { URLS } from '../constants';
+import { generateUrl } from './TwitchClip';
 
 const clip = 'clip';
 const parent = 'localhost';
@@ -45,9 +46,9 @@ describe('Utils -> TwitchClip', () => {
       const parents = ['host1', 'host2', 'host3'];
       const url = generateUrl(clip, parents);
 
-      parents.forEach((parent) => {
-        expect(url).toContain(`parent=${parent}`);
-      });
+      for (const p of parents) {
+        expect(url).toContain(`parent=${p}`);
+      }
     });
 
     it('should return a string with all the default options if no options are provided.', () => {

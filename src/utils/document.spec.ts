@@ -1,24 +1,24 @@
+import { beforeEach, describe, expect, it } from '@jest/globals';
 import { clearElementById } from './document';
 
 const id = 'my-id';
-const div = document.createElement('div');
-div.id = id;
-div.innerHTML = 'Full of html';
-
-Object.defineProperty(document, 'getElementById', {
-  value: jest.fn().mockReturnValue(div)
-});
 
 describe('Utils -> document', () => {
   beforeEach(() => {
-    div.innerHTML = 'Full of html';
+    document.body.innerHTML = `<div id="${id}">Full of html</div>`;
   });
 
   describe('clearElementById()', () => {
     it('should clear the html content of the container if found.', () => {
-      expect(div.innerHTML).not.toHaveLength(0);
+      const container = document.querySelector(`#${id}`);
+
+      expect(container?.innerHTML).not.toHaveLength(0);
       clearElementById(id);
-      expect(div.innerHTML).toHaveLength(0);
+      expect(container?.innerHTML).toHaveLength(0);
+    });
+
+    it('should do nothing if the container is not found.', () => {
+      expect(() => clearElementById('not-there')).not.toThrow();
     });
   });
 });

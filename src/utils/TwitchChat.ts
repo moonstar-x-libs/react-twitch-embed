@@ -1,28 +1,23 @@
-import { URLS, DEFAULTS } from '../constants';
+import { DEFAULTS, URLS } from '../constants';
+import { appendParents } from './parent';
+import type { Parent } from './parent';
+import type { Optional } from './types';
 
 export interface TwitchChatGenerateUrlOptions {
-  darkMode?: boolean
+  darkMode?: Optional<boolean>;
 }
-
-const generateUrlDefaultOptions: TwitchChatGenerateUrlOptions = {
-  darkMode: DEFAULTS.DARK_MODE
-};
 
 export const generateUrl = (
   channel: string,
-  parent: string | string[],
-  options = generateUrlDefaultOptions
+  parent: Parent,
+  options: TwitchChatGenerateUrlOptions = {}
 ): string => {
-  const fullOptions = { ...generateUrlDefaultOptions, ...options };
+  const { darkMode = DEFAULTS.DARK_MODE } = options;
   const params = new URLSearchParams();
 
-  if (Array.isArray(parent)) {
-    parent.forEach((parent) => params.append('parent', parent));
-  } else {
-    params.append('parent', parent);
-  }
+  appendParents(params, parent);
 
-  const startOfQuery = fullOptions.darkMode ? '?darkpopout&' : '?';
+  const startOfQuery = darkMode ? '?darkpopout&' : '?';
 
   return `${URLS.TWITCH_CHAT_URL}/${channel}/chat${startOfQuery}${params.toString()}`;
 };

@@ -1,5 +1,6 @@
-import { generateUrl } from './TwitchPlayerNonInteractive';
+import { describe, expect, it } from '@jest/globals';
 import { URLS } from '../constants';
+import { generateUrl } from './TwitchPlayerNonInteractive';
 
 const channel = 'channel';
 const parent = 'localhost';
@@ -78,9 +79,9 @@ describe('Utils -> TwitchPlayerNonInteractive', () => {
       const parents = ['host1', 'host2', 'host3'];
       const url = generateUrl({ channel }, parents);
 
-      parents.forEach((parent) => {
-        expect(url).toContain(`parent=${parent}`);
-      });
+      for (const host of parents) {
+        expect(url).toContain(`parent=${host}`);
+      }
     });
 
     it('should return a string with all the default options if no options are provided.', () => {

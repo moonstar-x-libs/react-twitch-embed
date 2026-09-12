@@ -1,10 +1,3 @@
-[![ci-build-status](https://img.shields.io/github/workflow/status/moonstar-x/react-twitch-embed/On%20Push%20%28Master%29?logo=github)](https://github.com/moonstar-x/react-twitch-embed)
-[![issues](https://img.shields.io/github/issues/moonstar-x/react-twitch-embed?logo=github)](https://github.com/moonstar-x/react-twitch-embed)
-[![bundle-size](https://img.shields.io/bundlephobia/min/react-twitch-embed)](https://www.npmjs.com/package/react-twitch-embed)
-[![version](https://img.shields.io/npm/v/react-twitch-embed?logo=npm)](https://www.npmjs.com/package/react-twitch-embed)
-[![downloads-week](https://img.shields.io/npm/dw/react-twitch-embed?logo=npm)](https://www.npmjs.com/package/react-twitch-embed)
-[![downloads-total](https://img.shields.io/npm/dt/react-twitch-embed?logo=npm)](https://www.npmjs.com/package/react-twitch-embed)
-
 # react-twitch-embed
 
 A collection of components to embed Twitch.
@@ -20,16 +13,150 @@ alongside a description on all the supported props for each component.
 npm install react-twitch-embed
 ```
 
+This package ships both an ESM and a CommonJS build alongside its own type declarations, and it supports
+React 18 and React 19. `react` and `react-dom` are peer dependencies, so they are not installed for you.
+
+## Quick Start
+
+```tsx
+import { TwitchPlayer } from 'react-twitch-embed';
+
+const MyComponent = () => {
+  return (
+    <TwitchPlayer channel="moonstar_x" autoplay muted />
+  );
+};
+```
+
+## Components
+
+| Component                    | Embeds                                     | Interactive | Renders                                       |
+|------------------------------|--------------------------------------------|-------------|-----------------------------------------------|
+| `TwitchEmbed`                | Streams, VODs and collections, plus chat   | ✅          | A `div` managed by Twitch's `Embed` script    |
+| `TwitchPlayer`               | Streams, VODs and collections              | ✅          | A `div` managed by Twitch's `Player` script   |
+| `TwitchPlayerNonInteractive` | Streams, VODs and collections              | ❌          | A plain `iframe`                              |
+| `TwitchClip`                 | Clips                                      | ❌          | A plain `iframe`                              |
+| `TwitchChat`                 | A channel's chat                           | ❌          | A plain `iframe`                              |
+
+Interactive components load a script from Twitch on demand and expose the underlying instance through their events,
+which enables smooth media switching and external control. Non-interactive components are just an `iframe`, so they
+download nothing extra and add no nodes to the document body.
+
+Every component forwards any prop it does not own to its underlying node, so `className`, `style`, data
+attributes and DOM event handlers all work as expected. The full list of props for each component lives in the
+[documentation](https://docs.moonstar-x.dev/react-twitch-embed).
+
+## Usage
+
+Everything is exported by name from the package root:
+
+```ts
+import {
+  TwitchChat,
+  TwitchClip,
+  TwitchEmbed,
+  TwitchPlayer,
+  TwitchPlayerNonInteractive
+} from 'react-twitch-embed';
+```
+
+Alongside the components, the following types are exported for TypeScript consumers:
+
+```ts
+import type {
+  // Props.
+  TwitchChatProps,
+  TwitchClipProps,
+  TwitchEmbedProps,
+  TwitchPlayerProps,
+  TwitchPlayerNonInteractiveProps,
+
+  // Event payloads.
+  OnAuthenticateData,
+  OnPlayData,
+  OnSeekData,
+
+  // The underlying Twitch API.
+  Parent,
+  PlaybackStats,
+  PlayerQuality,
+  PlayerState,
+  TwitchEmbedConstructor,
+  TwitchEmbedConstructorOptions,
+  TwitchEmbedInstance,
+  TwitchPlayerConstructor,
+  TwitchPlayerConstructorOptions,
+  TwitchPlayerInstance,
+  TwitchWindow
+} from 'react-twitch-embed';
+```
+
+### Embedding a Stream With Chat
+
+```tsx
+import { TwitchEmbed } from 'react-twitch-embed';
+
+const MyComponent = () => {
+  return (
+    <TwitchEmbed channel="moonstar_x" autoplay muted withChat />
+  );
+};
+```
+
+### Controlling the Player
+
+Both `TwitchEmbed` and `TwitchPlayer` hand you the underlying Twitch instance through their events. Keep it in a
+ref instead of state to avoid rerendering on every event:
+
+```tsx
+import { useRef } from 'react';
+import { TwitchPlayer } from 'react-twitch-embed';
+import type { TwitchPlayerInstance } from 'react-twitch-embed';
+
+const MyComponent = () => {
+  const player = useRef<TwitchPlayerInstance | null>(null);
+
+  const handleReady = (instance: TwitchPlayerInstance) => {
+    player.current = instance;
+  };
+
+  return (
+    <>
+      <TwitchPlayer channel="moonstar_x" autoplay muted onReady={handleReady} />
+      <button onClick={() => player.current?.pause()}>Pause</button>
+    </>
+  );
+};
+```
+
+Event handlers are read through a ref internally, so inline arrow functions are safe: they never recreate the embed
+and the latest one is always the one that gets called.
+
+### Embedding a Clip and a Chat
+
+```tsx
+import { TwitchChat, TwitchClip } from 'react-twitch-embed';
+
+const MyComponent = () => {
+  return (
+    <>
+      <TwitchClip clip="AdventurousBusyWormTwitchRaid-7vDEE8L5ur9j9dzi" autoplay muted />
+      <TwitchChat channel="moonstar_x" darkMode />
+    </>
+  );
+};
+```
+
 ## A Note on Typings
 
 This package includes some typings for the `Embed` and `Player` constructors that are downloaded automatically
 into the browser's `window` object. These are unofficial typings that I made empirically, some of them might not be accurate.
 
 The documentation on Twitch's official page is incomplete in various aspects, and a lot of the functionality included
-in this package was found by arbitrarily and through trial and error.
+in this package was found arbitrarily and through trial and error.
 
 If you find any inconsistency with the typings provided by this package, feel free to open a
-[Pull Request](https://github.com/moonstar-x/react-twitch-embed).
+[Pull Request](https://github.com/moonstar-x-libs/react-twitch-embed/pulls).
 
 ## A Note on the `parent` Prop
 
@@ -38,6 +165,13 @@ parent URL through `window.location.hostname` for non-interactive components (th
 while the interactive ones get the parent automatically (possible through the same property) by their respective constructor.
 
 As such, you shouldn't need to specify this prop for any of the components, unless you run a particular setup with multiple domains.
+
+## A Note on Server-Side Rendering
+
+The interactive components render nothing until their Twitch script has loaded, which only happens in the browser.
+The non-interactive ones do render their `iframe` on the server, but `window.location.hostname` is not available there,
+so the first rendered markup has no parent and the embed only becomes playable after hydration. If you server-side render
+these components, pass the `parent` prop explicitly so the markup is correct from the start.
 
 ## FAQ
 
@@ -53,10 +187,14 @@ As such, you shouldn't need to specify this prop for any of the components, unle
 > not download anything extra, it does not create any additional nodes on the body document, so it is probably less resource heavy.
 
 * **Why are there `TwitchClip` and `TwitchPlayer`?**
-> `TwitchClip` will only work for clips whereas`TwitchPlayer` will work for VODs, collections and streams.
+> `TwitchClip` will only work for clips whereas `TwitchPlayer` will work for VODs, collections and streams.
+
+* **I only need the chat, do I need a player too?**
+> No, `TwitchChat` is standalone. Use it on its own if you want to lay the chat out yourself, or use `TwitchEmbed` with
+> `withChat` if you want Twitch to render the player and the chat side by side for you.
 
 * **I'm using multiple embeds simultaneously, why are they sticking next to each other?**
-> In the case of `TwichEmbed` and `TwitchPlayer`, these components need an `id` prop to work because the internal API
+> In the case of `TwitchEmbed` and `TwitchPlayer`, these components need an `id` prop to work because the internal API
 > mounts its respective `iframe` inside a `div` queried by its `id`. These components will use a default `id` if it's not
 > provided in their props. If you're displaying multiple embeds simultaneously then you should provide a static `id`. Try
 > not to use the name of the channel as an `id` because in the case that this prop changes, the embed will be recreated and
@@ -65,6 +203,24 @@ As such, you shouldn't need to specify this prop for any of the components, unle
 * **What does smooth switching mean?**
 > For the `TwitchEmbed` and `TwitchPlayer` components, when updating their `channel`, `video` and/or `collection` props,
 > the player will not be recreated and instead the internal API will be used to update this data.
+
+* **When is the embed recreated?**
+> Only when the `id` or one of the options that the Twitch constructor owns changes: `allowFullscreen`, `autoplay`,
+> `muted`, `parent`, `time`, `hideControls`, plus `withChat` and `darkMode` for `TwitchEmbed` and `playsInline` for
+> `TwitchPlayer`. Media props are switched through the internal API, and everything else (event handlers, `height`,
+> `width`, `className`, `style`, and any other prop forwarded to the `div`) never recreates it. This means inline
+> arrow functions as event handlers are safe: the latest one is always the one that gets called.
+
+* **Why isn't my embed playing?**
+> Twitch rejects any embed whose `parent` does not match the site that serves it, so check that the hostname you're
+> serving from is the one being sent. Autoplay with sound is also blocked by browsers until the user interacts with the
+> page, which is why `muted` exists.
+
+* **Why isn't my embed autoplaying?**
+> Twitch needs the embed to satisfy some minimal requirements.
+> These requirements include style visibility, meaning that you cannot overlay anything on top
+> of the player yourself. The `playerRef.play()` method is also affected by this.
+> For more information, check out the [requirements](https://dev.twitch.tv/docs/embed/#embedded-experiences-requirements).
 
 ## Testing
 
@@ -80,7 +236,15 @@ Or leave the watcher running with:
 npm run test:watch
 ```
 
+You can also get a coverage report with:
+
+```text
+npm run test:coverage
+```
+
 ## Developing
+
+This package requires Node.js `>=20.19`. Install the dependencies with `npm ci` to get started.
 
 When developing, you can use Storybook as a way to check the components and test them. You can run the Storybook server with:
 
@@ -88,12 +252,27 @@ When developing, you can use Storybook as a way to check the components and test
 npm run storybook:serve
 ```
 
-Also, make sure that your code is linter properly with:
+Also, make sure that your code lints and type checks properly with:
 
 ```text
 npm run lint
+npm run typecheck
 ```
 
-## Author
+The distributable bundle is created with:
 
-This component package was made by [moonstar-x](https://github.com/moonstar-x).
+```text
+npm run build
+```
+
+Which you can validate with:
+
+```text
+npm run lint:package
+```
+
+## Contributing
+
+Issues and pull requests are welcome over at the
+[repository](https://github.com/moonstar-x-libs/react-twitch-embed). If you're changing the behavior of a component,
+please include tests and update its Storybook documentation.

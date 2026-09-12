@@ -1,6 +1,6 @@
-export const clearElementById = (id: string) => {
-  const container = document.getElementById(id);
+export const clearElementById = (id: string): void => {
+  const container = document.querySelector(`#${id}`);
   if (container) {
-    container.innerHTML = '';
+    container.replaceChildren();
   }
 };
